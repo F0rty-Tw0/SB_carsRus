@@ -1,0 +1,6 @@
+DELETE FROM members where id > 0;
+INSERT INTO members (id,date_created,date_edited,first_name,last_name,street,city,zip,email,approved,ranking) values (101,'2021-09-15 23:25:58.259792','2021-09-15 23:25:58.259792','Armin','Van Buuren','219–241 Cleveland St','Chesterfield','10991','armin@gmail.com', false, 3);
+INSERT INTO members (id,date_created,date_edited,first_name,last_name,street,city,zip,email,approved,ranking) values (102,'2021-09-15 23:25:58.259792','2021-09-15 23:25:58.259792','Artiom', 'Tofan', '30 Commercial Road', 'New York', '1526', 'art@gmail.com', true, 1);
+INSERT INTO members (id,date_created,date_edited,first_name,last_name,street,city,zip,email,approved,ranking) values (103,'2021-09-15 23:25:58.259792','2021-09-15 23:25:58.259792','John', 'Digweed', 'Piedras 623', 'Brussels', '2010', 'john@gmail.com', true, 5);
+INSERT INTO members (id,date_created,date_edited,first_name,last_name,street,city,zip,email,approved,ranking) values (104,'2021-09-15 23:25:58.259792','2021-09-15 23:25:58.259792','Paul', 'Van Dyke', 'French 392', 'Manpack', 'IX991', 'Ppaul@gmail.com', false, 6);
+INSERT INTO members (id,date_created,date_edited,first_name,last_name,street,city,zip,email,approved,ranking) values (105,'2021-09-15 23:25:58.259792','2021-09-15 23:25:58.259792','David', 'Guetta', 'Hauptstr. 5', 'Buenas Aires', '5818', 'david@gmail.com', false, 2);
