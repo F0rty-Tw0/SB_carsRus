@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import cars.rus.Configuration.TestDataSetup;
 import cars.rus.DTO.CarInput;
 import cars.rus.Repositories.CarRepository;
 
@@ -25,38 +26,41 @@ public class CarServiceImplTest {
   }
 
   @Test
-  @Sql("/createCars.sql")
+  void testUpdateCar() {
+    CarInput carInput = new CarInput("Jeep", "Raw 4", 50);
+    Long count = carServiceImpl.addOrUpdateCar(carInput, 105l).getId();
+    assertEquals(1, count);
+  }
+
+  @Test
   void testFindCarsByBrand() {
+    TestDataSetup.createCars(carRepository);
     int count = carServiceImpl.findCarsByBrand("Toyota", false).size();
     assertEquals(2, count);
   }
 
   @Test
-  @Sql("/createCars.sql")
   void testFindCarsByBrandAndModel() {
     int count = carServiceImpl.findCarsByBrandAndModel("Toyota", "Yaris", false).size();
     assertEquals(1, count);
   }
 
   @Test
-  @Sql("/createCars.sql")
   void testFindCarsByPricePerDayLessThan() {
     int count = carServiceImpl.findCarsByPricePerDayLessThan(50, false).size();
     assertEquals(2, count);
   }
 
   @Test
-  @Sql("/createCars.sql")
   void testFindAll() {
     int count = carServiceImpl.findAll(false).size();
     assertEquals(5, count);
   }
 
   @Test
-  @Sql("/createCars.sql")
-  void testAddOrUpdateCar() {
+  void testAddCar() {
     CarInput carInput = new CarInput("Jeep", "Raw 4", 50);
-    Long count = carServiceImpl.addOrUpdateCar(carInput, 105l).getId();
-    assertEquals(105, count);
+    Long count = carServiceImpl.addOrUpdateCar(carInput, 0l).getId();
+    assertEquals(6, count);
   }
 }
