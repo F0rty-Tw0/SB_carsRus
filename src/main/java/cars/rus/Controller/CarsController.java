@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cars.rus.DTO.CarDTO;
 import cars.rus.DTO.CarInput;
-import cars.rus.Entities.Car;
 import cars.rus.Service.CarServiceImpl;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
