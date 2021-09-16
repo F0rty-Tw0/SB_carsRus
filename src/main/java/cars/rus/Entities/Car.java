@@ -15,7 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Car {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
   @Column(columnDefinition = "CHAR(40)", nullable = false)
   private String brand;
@@ -37,14 +37,6 @@ public class Car {
     this.brand = brand;
     this.model = model;
     this.pricePerDay = pricePerDay;
-  }
-
-  public LocalDateTime getDateEdited() {
-    return dateEdited;
-  }
-
-  public void setDateEdited(LocalDateTime dateEdited) {
-    this.dateEdited = dateEdited;
   }
 
   public Long getId() {
@@ -81,6 +73,14 @@ public class Car {
 
   public void setDateCreated(LocalDateTime dateCreated) {
     this.dateCreated = dateCreated;
+  }
+
+  public LocalDateTime getDateEdited() {
+    return dateEdited;
+  }
+
+  public void setDateEdited(LocalDateTime dateEdited) {
+    this.dateEdited = dateEdited;
   }
 
 }

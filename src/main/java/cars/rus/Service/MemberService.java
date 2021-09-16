@@ -5,7 +5,9 @@ import java.util.List;
 import cars.rus.Entities.Member;
 
 public interface MemberService {
-  Member getMemberByEmail(String email);
+  public List<Member> findAll();
 
-  List<Member> getMembersByApproved(boolean isApproved);
+  public Member getMemberByEmail(String email);
+
+  public List<Member> getMembersByApproved(boolean isApproved);
 }

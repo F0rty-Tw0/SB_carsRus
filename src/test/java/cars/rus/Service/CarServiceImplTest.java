@@ -26,28 +26,28 @@ public class CarServiceImplTest {
   @Test
   @Sql("/createCars.sql")
   void testFindCarsByBrand() {
-    int count = carServiceImpl.findCarsByBrand("Toyota").size();
+    int count = carServiceImpl.findCarsByBrand("Toyota", false).size();
     assertEquals(2, count);
   }
 
   @Test
   @Sql("/createCars.sql")
   void testFindCarsByBrandAndModel() {
-    int count = carServiceImpl.findCarsByBrandAndModel("Toyota", "Yaris").size();
+    int count = carServiceImpl.findCarsByBrandAndModel("Toyota", "Yaris", false).size();
     assertEquals(1, count);
   }
 
   @Test
   @Sql("/createCars.sql")
   void testFindCarsByPricePerDayLessThan() {
-    int count = carServiceImpl.findCarsByPricePerDayLessThan(50).size();
+    int count = carServiceImpl.findCarsByPricePerDayLessThan(50, false).size();
     assertEquals(2, count);
   }
 
   @Test
   @Sql("/createCars.sql")
   void testFindAll() {
-    int count = carServiceImpl.findAll().size();
+    int count = carServiceImpl.findAll(false).size();
     assertEquals(5, count);
   }
 }

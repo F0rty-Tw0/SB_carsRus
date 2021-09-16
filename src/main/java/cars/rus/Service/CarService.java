@@ -2,14 +2,17 @@ package cars.rus.Service;
 
 import java.util.List;
 
-import cars.rus.Entities.Car;
+import cars.rus.DTO.CarDTO;
+import cars.rus.DTO.CarInput;
 
 public interface CarService {
-  public List<Car> findCarsByBrand(String brand);
+  public List<CarDTO> findCarsByBrand(String brand, boolean simple);
 
-  public List<Car> findCarsByBrandAndModel(String brand, String model);
+  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean simple);
 
-  public List<Car> findCarsByPricePerDayLessThan(int givenPrice);
+  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean simple);
 
-  public List<Car> findAll();
+  public List<CarDTO> findAll(boolean simple);
+
+  public CarDTO addCar(CarInput carInput);
 }

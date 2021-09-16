@@ -13,7 +13,7 @@ import cars.rus.Service.CarServiceImpl;
 @RestController
 
 @RequestMapping("/api/cars")
-public class CarController {
+public class CarsController {
   @Autowired
   CarServiceImpl carServiceImpl;
 
