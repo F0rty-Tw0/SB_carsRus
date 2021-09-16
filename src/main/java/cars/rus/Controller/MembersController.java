@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cars.rus.Entities.Member;
 import cars.rus.Service.MemberServiceImpl;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/members")
@@ -24,7 +25,7 @@ public class MembersController {
   }
 
   @PutMapping("/api/members/{id}")
-  Member addOrUpdateMember(@PathVariable long id) {
-    return memberServiceImpl.save();
+  Member addOrUpdateMember(@PathVariable long id, @RequestBody Member member) {
+    return memberServiceImpl.addOrUpdateMember(member);
   }
 }

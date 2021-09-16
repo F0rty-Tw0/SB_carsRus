@@ -37,8 +37,24 @@ public class CarServiceImpl implements CarService {
     return CarDTO.getCarDTOs(allCars, simple);
   }
 
-  public CarDTO addCar(CarInput carInput) {
-    Car newCar = carRepository.save(CarInput.carFromCarInput(carInput));
-    return new CarDTO(newCar);
+  public CarDTO addOrUpdateCar(CarInput carInput, Long id) {
+    Car foundCar = carRepository.findCarById(id);
+    if (foundCar == null) {
+      Car newCar = carRepository.save(CarInput.carFromCarInput(carInput));
+      return new CarDTO(newCar);
+    } else {
+      foundCar.setBrand(carInput.getBrand());
+      foundCar.setModel(carInput.getModel());
+      foundCar.setPricePerDay(carInput.getPricePerDay());
+      foundCar.setDateEdited(carInput.getDateEdited());
+      return new CarDTO(foundCar);
+    }
+
+  }
+
+  @Override
+  public CarDTO findCarById(Long id) {
+    Car foundCar = carRepository.findCarById(id);
+    return new CarDTO(foundCar);
   }
 }

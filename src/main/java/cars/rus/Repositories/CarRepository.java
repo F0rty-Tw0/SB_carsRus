@@ -10,6 +10,8 @@ import cars.rus.Entities.Car;
 @Repository
 
 public interface CarRepository extends JpaRepository<Car, Long> {
+  public Car findCarById(long id);
+
   public List<Car> findAll();
 
   public List<Car> findCarsByBrand(String brand);

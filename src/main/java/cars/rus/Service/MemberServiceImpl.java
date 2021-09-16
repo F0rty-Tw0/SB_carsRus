@@ -28,4 +28,8 @@ public class MemberServiceImpl implements MemberService {
     return memberRepository.getMembersByApproved(isApproved);
   }
 
+  public Member addOrUpdateMember(Member member) {
+    return memberRepository.save(member);
+  }
+
 }

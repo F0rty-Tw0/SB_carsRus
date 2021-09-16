@@ -14,5 +14,7 @@ public interface CarService {
 
   public List<CarDTO> findAll(boolean simple);
 
-  public CarDTO addCar(CarInput carInput);
+  public CarDTO findCarById(Long id);
+
+  public CarDTO addOrUpdateCar(CarInput carInput, Long id);
 }

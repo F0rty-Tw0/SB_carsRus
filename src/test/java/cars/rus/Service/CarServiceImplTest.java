@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import cars.rus.DTO.CarInput;
 import cars.rus.Repositories.CarRepository;
 
 @DataJpaTest
@@ -49,5 +50,13 @@ public class CarServiceImplTest {
   void testFindAll() {
     int count = carServiceImpl.findAll(false).size();
     assertEquals(5, count);
+  }
+
+  @Test
+  @Sql("/createCars.sql")
+  void testAddOrUpdateCar() {
+    CarInput carInput = new CarInput("Jeep", "Raw 4", 50);
+    Long count = carServiceImpl.addOrUpdateCar(carInput, 105l).getId();
+    assertEquals(105, count);
   }
 }

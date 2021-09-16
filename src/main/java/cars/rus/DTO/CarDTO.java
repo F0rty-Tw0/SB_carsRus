@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import cars.rus.Entities.Car;
 import io.swagger.annotations.ApiModel;
 
 @ApiModel
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarDTO {
 
   private Long id;
@@ -22,10 +25,15 @@ public class CarDTO {
   }
 
   public CarDTO(Car car) {
+    this.id = car.getId();
+    this.brand = car.getBrand();
+    this.model = car.getModel();
+    this.pricePerDay = car.getPricePerDay();
+    this.dateCreated = car.getDateCreated();
+    this.dateEdited = car.getDateEdited();
   }
 
-  public CarDTO(Long id, String brand, String model, int pricePerDay) {
-    this.id = id;
+  public CarDTO(String brand, String model, int pricePerDay) {
     this.brand = brand;
     this.model = model;
     this.pricePerDay = pricePerDay;
@@ -91,7 +99,7 @@ public class CarDTO {
 
   public static List<CarDTO> getCarDTOs(Iterable<Car> allCars, boolean simple) {
     List<CarDTO> DTO = StreamSupport.stream(allCars.spliterator(), false)
-        .map(car -> simple ? new CarDTO(null, car.getBrand(), car.getModel(), car.getPricePerDay()) : new CarDTO(car))
+        .map(car -> simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay()) : new CarDTO(car))
         .collect(Collectors.toList());
     return DTO;
   }
