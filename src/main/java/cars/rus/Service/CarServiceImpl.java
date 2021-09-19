@@ -1,6 +1,7 @@
 package cars.rus.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -32,29 +33,41 @@ public class CarServiceImpl implements CarService {
     return CarDTO.getCarDTOs(matchedCars, simple);
   }
 
-  public List<CarDTO> findAll(boolean simple) {
+  public List<CarDTO> findAllCars(boolean simple) {
     Iterable<Car> allCars = carRepository.findAll();
     return CarDTO.getCarDTOs(allCars, simple);
   }
 
-  public CarDTO addOrUpdateCar(CarInput carInput, Long id) {
-    Car foundCar = carRepository.findCarById(id);
-    if (foundCar == null) {
-      Car newCar = carRepository.save(CarInput.carFromCarInput(carInput));
-      return new CarDTO(newCar);
-    } else {
-      foundCar.setBrand(carInput.getBrand());
-      foundCar.setModel(carInput.getModel());
-      foundCar.setPricePerDay(carInput.getPricePerDay());
-      foundCar.setDateEdited(carInput.getDateEdited());
-      return new CarDTO(foundCar);
-    }
-
+  public CarDTO addCar(CarInput carInput) {
+    Car newCar = carRepository.save(CarInput.getCarFromInput(carInput));
+    return new CarDTO(newCar);
   }
 
-  @Override
-  public CarDTO findCarById(Long id) {
-    Car foundCar = carRepository.findCarById(id);
-    return new CarDTO(foundCar);
+  public CarDTO updateOrAddCar(CarInput carInput, Long id) {
+    Optional<Car> foundCar = carRepository.findById(id);
+    Car newCar;
+    if (foundCar.isPresent()) {
+      newCar = carRepository.save(CarInput.getCarFromInput(carInput));
+    } else {
+      foundCar.get().setBrand(carInput.getBrand());
+      foundCar.get().setModel(carInput.getModel());
+      foundCar.get().setPricePerDay(carInput.getPricePerDay());
+      foundCar.get().setDateEdited(carInput.getDateEdited());
+      newCar = carRepository.save(foundCar.get());
+    }
+    return new CarDTO(newCar);
+  }
+
+  public CarDTO findCarById(Long id, boolean simple) {
+    Optional<Car> foundCar = carRepository.findById(id);
+    return CarDTO.getCarDTO(foundCar.get(), simple);
+  }
+
+  public void deleteCarById(Long id) {
+    Optional<Car> foundCar = carRepository.findById(id);
+    if (!foundCar.isPresent()) {
+      return;
+    }
+    carRepository.deleteCarById(id);
   }
 }

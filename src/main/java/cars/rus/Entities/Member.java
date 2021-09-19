@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,11 +26,11 @@ public class Member {
   private String firstName;
   @Column(columnDefinition = "CHAR(40)", nullable = false)
   private String lastName;
-  @Column(columnDefinition = "CHAR(40)", nullable = false)
+  @Column(columnDefinition = "CHAR(40)")
   private String street;
-  @Column(columnDefinition = "CHAR(120)", nullable = false)
+  @Column(columnDefinition = "CHAR(120)")
   private String city;
-  @Column(columnDefinition = "CHAR(40)", nullable = false)
+  @Column(columnDefinition = "CHAR(40)")
   private String zip;
   @Column(columnDefinition = "CHAR(120)", nullable = false, unique = true)
   private String email;
@@ -44,10 +45,25 @@ public class Member {
   @UpdateTimestamp
   private LocalDateTime dateEdited;
 
-  @OneToMany(mappedBy = "member")
+  @OneToMany(mappedBy = "member", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   List<Reservation> allReservations = new ArrayList<>();
 
   public Member() {
+  }
+
+  public Member(String firstName, String lastName, String email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+  }
+
+  public Member(String firstName, String lastName, String street, String city, String zip, String email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.street = street;
+    this.city = city;
+    this.zip = zip;
+    this.email = email;
   }
 
   public Member(String firstName, String lastName, String street, String city, String zip, String email,

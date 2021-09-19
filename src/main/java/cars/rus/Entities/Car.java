@@ -23,9 +23,9 @@ public class Car {
 
   @Column(columnDefinition = "CHAR(40)", nullable = false)
   private String brand;
-  @Column(columnDefinition = "CHAR(40)", nullable = false)
+  @Column(columnDefinition = "CHAR(40)")
   private String model;
-  @Column(columnDefinition = "int", nullable = false)
+  @Column(columnDefinition = "int default 30", nullable = false)
   private int pricePerDay;
 
   @CreationTimestamp
@@ -34,10 +34,15 @@ public class Car {
   @UpdateTimestamp
   private LocalDateTime dateEdited;
 
-  @OneToMany(mappedBy = "car")
+  @OneToMany(mappedBy = "car", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   private List<Reservation> allReservations = new ArrayList<>();
 
   public Car() {
+  }
+
+  public Car(String brand, String model) {
+    this.brand = brand;
+    this.model = model;
   }
 
   public Car(String brand, String model, int pricePerDay) {

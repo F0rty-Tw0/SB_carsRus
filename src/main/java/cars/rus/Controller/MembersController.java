@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cars.rus.Entities.Member;
+import cars.rus.DTO.MemberDTO;
+import cars.rus.DTO.MemberInput;
 import cars.rus.Service.MemberServiceImpl;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -20,12 +21,12 @@ public class MembersController {
   MemberServiceImpl memberServiceImpl;
 
   @GetMapping
-  List<Member> getAllMembers() {
-    return memberServiceImpl.findAll();
+  List<MemberDTO> getAllMembers() {
+    return memberServiceImpl.findAllMembers(false);
   }
 
   @PutMapping("/api/members/{id}")
-  Member addOrUpdateMember(@PathVariable long id, @RequestBody Member member) {
-    return memberServiceImpl.addOrUpdateMember(member);
+  MemberDTO addOrUpdateMember(@PathVariable long id, @RequestBody MemberInput member) {
+    return memberServiceImpl.updateOrAddMember(member, id);
   }
 }

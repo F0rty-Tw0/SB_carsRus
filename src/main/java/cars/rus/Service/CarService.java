@@ -12,9 +12,13 @@ public interface CarService {
 
   public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean simple);
 
-  public List<CarDTO> findAll(boolean simple);
+  public List<CarDTO> findAllCars(boolean simple);
 
-  public CarDTO findCarById(Long id);
+  public CarDTO findCarById(Long id, boolean simple);
 
-  public CarDTO addOrUpdateCar(CarInput carInput, Long id);
+  public void deleteCarById(Long id);
+
+  public CarDTO addCar(CarInput carInput);
+
+  public CarDTO updateOrAddCar(CarInput carInput, Long id);
 }

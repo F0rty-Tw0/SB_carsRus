@@ -1,10 +1,10 @@
 package cars.rus.Controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,16 +23,21 @@ public class CarsController {
   CarServiceImpl carServiceImpl;
 
   @GetMapping
-  Iterable<CarDTO> getCars(@RequestParam String type) {
+  Iterable<CarDTO> getCars(@RequestParam(required = false) String type) {
     boolean simple = false;
     if (type != null && type.equals("simple")) {
       simple = true;
     }
-    return carServiceImpl.findAll(simple);
+    return carServiceImpl.findAllCars(simple);
   }
 
-  @PutMapping("/api/cars/{id}")
-  CarDTO addOrUpdateCar(@PathVariable Long id, @RequestBody CarInput car) {
-    return carServiceImpl.addOrUpdateCar(car, id);
+  @PutMapping("/{id}")
+  CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody CarInput car) {
+    return carServiceImpl.updateOrAddCar(car, id);
+  }
+
+  @PostMapping()
+  CarDTO addCar(@RequestBody CarInput car) {
+    return carServiceImpl.addCar(car);
   }
 }

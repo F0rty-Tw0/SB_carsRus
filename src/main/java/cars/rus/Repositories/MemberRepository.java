@@ -10,6 +10,10 @@ import cars.rus.Entities.Member;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
   public List<Member> findAll();
+
+  public void deleteMemberById(Long id);
+
   public Member getMemberByEmail(String email);
+
   public List<Member> getMembersByApproved(boolean isApproved);
 }

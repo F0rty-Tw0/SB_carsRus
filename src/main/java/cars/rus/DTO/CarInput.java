@@ -51,7 +51,7 @@ public class CarInput {
     this.dateEdited = dateEdited;
   }
 
-  public static Car carFromCarInput(CarInput carInput) {
+  public static Car getCarFromInput(CarInput carInput) {
     return new Car(carInput.getBrand(), carInput.getModel(), carInput.getPricePerDay());
   }
 }
