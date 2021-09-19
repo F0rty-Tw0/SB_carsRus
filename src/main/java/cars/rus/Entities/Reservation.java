@@ -15,7 +15,6 @@ public class Reservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @CreationTimestamp
   private LocalDate reservationDate;
 
@@ -34,8 +33,8 @@ public class Reservation {
     this.rentalDate = rentalDate;
   }
 
-  public Reservation(LocalDate reservationDate, Member member, Car car) {
-    this.reservationDate = reservationDate;
+  public Reservation(LocalDate rentalDate, Member member, Car car) {
+    this.rentalDate = rentalDate;
     this.member = member;
     this.car = car;
   }

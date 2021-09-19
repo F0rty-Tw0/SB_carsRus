@@ -16,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
   public Member getMemberByEmail(String email);
 
   public List<Member> getMembersByApproved(boolean isApproved);
+
+  public Member findTopByOrderByIdDesc();
 }

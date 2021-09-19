@@ -64,6 +64,7 @@ public class DataSetup implements CommandLineRunner {
     List<Long> reservationsList = new ArrayList<>() {
       {
         add(reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), member, car)).getId());
+        add(reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), member, car)).getId());
       }
     };
     System.out.println("Total cars: " + carIdsList.size());

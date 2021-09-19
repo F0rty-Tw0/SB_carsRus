@@ -43,12 +43,13 @@ public class MemberServiceImplTest {
   @Test
   void testGetMembersByApproved() {
     int foundMembers = memberServiceImpl.getMembersByApproved(false, false).size();
-    assertEquals(3, foundMembers);
+    assertEquals(4, foundMembers);
   }
 
   @Test
   void testUpdateOrAddMember() {
-    String updatedFirstName = memberServiceImpl.updateOrAddMember(memberInput, 1l).getFirstName();
+    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
+    String updatedFirstName = memberServiceImpl.updateOrAddMember(memberInput, lastMemberId).getFirstName();
     assertEquals("Artiom", updatedFirstName);
   }
 
@@ -73,7 +74,8 @@ public class MemberServiceImplTest {
 
   @Test
   void testFindMemberById() {
-    Long foundMemberId = memberServiceImpl.findMemberById(1l, false).getId();
-    assertEquals(1, foundMemberId);
+    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
+    Long foundMemberId = memberServiceImpl.findMemberById(lastMemberId, false).getId();
+    assertEquals(lastMemberId, foundMemberId);
   }
 }

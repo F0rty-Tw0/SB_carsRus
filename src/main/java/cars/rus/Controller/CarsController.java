@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cars.rus.DTO.CarDTO;
 import cars.rus.DTO.CarInput;
-import cars.rus.Service.CarServiceImpl;
+import cars.rus.Service.CarService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RequestMapping("/api/cars")
 public class CarsController {
   @Autowired
-  CarServiceImpl carServiceImpl;
+  CarService carService;
 
   @GetMapping
   Iterable<CarDTO> getCars(@RequestParam(required = false) String type) {
@@ -28,16 +28,16 @@ public class CarsController {
     if (type != null && type.equals("simple")) {
       simple = true;
     }
-    return carServiceImpl.findAllCars(simple);
+    return carService.findAllCars(simple);
   }
 
   @PutMapping("/{id}")
   CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody CarInput car) {
-    return carServiceImpl.updateOrAddCar(car, id);
+    return carService.updateOrAddCar(car, id);
   }
 
   @PostMapping()
   CarDTO addCar(@RequestBody CarInput car) {
-    return carServiceImpl.addCar(car);
+    return carService.addCar(car);
   }
 }

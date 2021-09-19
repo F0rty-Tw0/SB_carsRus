@@ -16,5 +16,7 @@ public interface MemberService {
 
   public void deleteMemberById(Long id);
 
+  public MemberDTO updateOrAddMember(MemberInput memberInput, Long id);
+
   public MemberDTO addMember(MemberInput memberInput);
 }

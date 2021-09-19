@@ -42,7 +42,8 @@ public class CarServiceImplTest {
 
   @Test
   public void testUpdateOrAddCar() {
-    String updatedBrand = carServiceImpl.updateOrAddCar(carInput, 1l).getBrand();
+    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
+    String updatedBrand = carServiceImpl.updateOrAddCar(carInput, lastCarId).getBrand();
     assertEquals("Jeep", updatedBrand);
   }
 
@@ -79,7 +80,8 @@ public class CarServiceImplTest {
 
   @Test
   void testFindCarById() {
-    Long foundCarId = carServiceImpl.findCarById(1l, false).getId();
-    assertEquals(1, foundCarId);
+    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
+    Long foundCarId = carServiceImpl.findCarById(lastCarId, false).getId();
+    assertEquals(lastCarId, foundCarId);
   }
 }
