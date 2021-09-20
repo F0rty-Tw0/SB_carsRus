@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -16,12 +14,11 @@ import cars.rus.Configuration.TestDataSetup;
 import cars.rus.Entities.Member;
 
 @DataJpaTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class MemberRepositoryTest {
   @Autowired
   MemberRepository memberRepository;
 
-  @BeforeAll
+  @BeforeEach
   public void setupMembers() {
     TestDataSetup.createMembers(memberRepository);
   }

@@ -8,34 +8,20 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import cars.rus.Configuration.TestDataSetup;
-import cars.rus.Entities.Car;
-import cars.rus.Entities.Member;
 import cars.rus.Entities.Reservation;
 
 @DataJpaTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class ReservationRepositoryTest {
   @Autowired
   private ReservationRepository reservationRepository;
-  @Autowired
-  private CarRepository carRepository;
-  @Autowired
-  private MemberRepository memberRepository;
-  private Car car = new Car("Audi", "A5", 60);
-  private Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526",
-      "arty@gmail.com");
 
-  @BeforeAll
+  @BeforeEach
   public void setupReservations() {
-
 
   }
 
