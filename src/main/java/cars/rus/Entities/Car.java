@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -102,5 +101,20 @@ public class Car {
   public void addReservation(Reservation reservation) {
     allReservations.add(reservation);
     reservation.setCar(this);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Car car = (Car) o;
+    return id == car.id && Objects.equals(dateCreated, car.dateCreated) && Objects.equals(dateEdited, car.dateEdited);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, dateCreated, dateEdited);
   }
 }

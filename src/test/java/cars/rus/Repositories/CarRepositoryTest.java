@@ -15,7 +15,6 @@ import cars.rus.Configuration.TestDataSetup;
 import cars.rus.Entities.Car;
 
 @DataJpaTest
-
 public class CarRepositoryTest {
   @Autowired
   CarRepository carRepository;
