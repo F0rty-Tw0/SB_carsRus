@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import cars.rus.Configuration.TestDataSetup;
+import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.CarInput;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
@@ -31,7 +31,7 @@ public class CarServiceImplTest {
 
   @BeforeEach
   public void createCars() {
-    TestDataSetup.createCars(carRepository);
+    JpaDataMock.createCars(carRepository);
   }
 
   @Test

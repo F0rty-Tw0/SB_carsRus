@@ -107,4 +107,10 @@ public class CarDTO {
   public static CarDTO getCarDTO(Car car, boolean simple) {
     return simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay()) : new CarDTO(car);
   }
+
+  // public static CarDTO getCarDTO(Car car, boolean simple) {
+  // CarDTO DTO = simple ? new CarDTO(car.getBrand(), car.getModel(),
+  // car.getPricePerDay()) : new CarDTO(car);
+  // return DTO;
+  // }
 }

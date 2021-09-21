@@ -4,11 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -17,13 +14,17 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 
 import cars.rus.Configuration.TestDataSetup;
 import cars.rus.DTO.CarDTO;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
-@SpringBootTest(classes = { cars.rus.RusApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@SpringBootTest(classes = { cars.rus.RusApplication.class,
+    TestDataSetup.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
 public class CarsControllerTest {
   @Autowired
   CarRepository carRepository;
@@ -33,12 +34,8 @@ public class CarsControllerTest {
   ReservationRepository reservationRepository;
   @Autowired
   TestRestTemplate restTemplate;
-  // @BeforeEach
-  // public void setupReservations() {
-  //   TestDataSetup.createReservation(reservationRepository, memberRepository, carRepository);
-  // }
 
-  private final String BASE_PATH = "/api/cars";
+  private final String BASE_PATH = "/api/cars/";
   private final HttpHeaders headers = new HttpHeaders();
 
   @LocalServerPort
@@ -50,22 +47,30 @@ public class CarsControllerTest {
     return pathBuilded;
   }
 
-  private <T> ResponseEntity<T> getResponse() {
+  private <T> ResponseEntity<T> getResponse(String... params) {
+    ParameterizedTypeReference<T> PTR = new ParameterizedTypeReference<T>() {
+    };
+    String param1 = params.length > 0 ? params[0] : "";
+    String param2 = params.length > 1 ? params[1] : "";
     HttpEntity<String> entity = new HttpEntity<>(null, headers);
-    ResponseEntity<T> response = restTemplate.exchange(makeUrl(BASE_PATH), HttpMethod.GET, entity,
-        new ParameterizedTypeReference<T>() {
-        });
+    ResponseEntity<T> response = null;
+    try {
+      response = restTemplate.exchange(makeUrl(BASE_PATH + param1 + "/" + param2), HttpMethod.GET, entity, PTR);
+    } catch (RestClientException e) {
+      System.out.println("getMatches exception:" + e.getLocalizedMessage());
+      e.printStackTrace();
+    }
     return response;
   }
 
-  // private <T> ResponseEntity<T> getResponseParametrized(String path1, String path2) {
-  //   HttpEntity<String> entity = new HttpEntity<>(null, headers);
-  //   ResponseEntity<T> response = restTemplate.exchange(makeUrl(BASE_PATH + path1 + path2), HttpMethod.GET, entity,
-  //       new ParameterizedTypeReference<T>() {
-  //       });
-  //       System.out.println(response);
-  //   return response;
-  // }
+  private <T> ResponseEntity<T> getResponseParametrized(String path1, String path2) {
+    HttpEntity<String> entity = new HttpEntity<>(null, headers);
+    ResponseEntity<T> response = restTemplate.exchange(makeUrl(BASE_PATH + path1 + "/" + path2), HttpMethod.GET, entity,
+        new ParameterizedTypeReference<T>() {
+        });
+    System.out.println(response);
+    return response;
+  }
 
   @Test
   void testAddCar() {
@@ -79,12 +84,15 @@ public class CarsControllerTest {
 
   @Test
   void testFindCarById() {
-
+    ResponseEntity<List<CarDTO>> response = getResponse("1");
+    System.out.println(response.getBody().size());
+    // assertEquals(1, response.getBody());
   }
 
   @Test
   void testFindCarsByBrandAndModel() {
-
+    ResponseEntity<List<CarDTO>> response = getResponse("brand/toyota", "model/yaris");
+    assertEquals(1, response.getBody().size());
   }
 
   @Test
@@ -97,12 +105,6 @@ public class CarsControllerTest {
     ResponseEntity<List<CarDTO>> response = getResponse();
     assertEquals(5, response.getBody().size());
   }
-
-  // @Test
-  // void testGetCarsByBrand() {
-  //   ResponseEntity<List<CarDTO>> response = getResponseParametrized("toyota", "");
-  //   assertEquals(5, response.getBody().size());
-  // }
 
   @Test
   void testUpdateOrAddCar() {

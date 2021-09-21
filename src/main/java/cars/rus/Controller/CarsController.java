@@ -32,20 +32,21 @@ public class CarsController {
   }
 
   @ApiOperation("Returns the found Cars by Brand ('type=simple' - simplifies the returned data)")
-  @GetMapping("/{brand}")
+  @GetMapping("/brand/{brand}")
   public Iterable<CarDTO> getCarsByBrand(@RequestParam(required = false) String type, @PathVariable String brand) {
+    System.out.println(brand);
     return carService.findCarsByBrand(brand, checkSimple.isSimple(type));
   }
 
   @ApiOperation("Returns the found Cars by Brand and Model ('type=simple' - simplifies the returned data)")
-  @GetMapping("/{brand}/{model}")
+  @GetMapping("/brand/{brand}/model/{model}")
   public Iterable<CarDTO> findCarsByBrandAndModel(@RequestParam(required = false) String type,
       @PathVariable String brand, @PathVariable String model) {
     return carService.findCarsByBrandAndModel(brand, model, checkSimple.isSimple(type));
   }
 
   @ApiOperation("Returns the found Cars by Price which is less than input ('type=simple' - simplifies the returned data)")
-  @GetMapping("/{price}")
+  @GetMapping("/price/{price}")
   public Iterable<CarDTO> findCarsByPricePerDayLessThan(@RequestParam(required = false) String type,
       @PathVariable int givenPrice) {
     return carService.findCarsByPricePerDayLessThan(givenPrice, checkSimple.isSimple(type));

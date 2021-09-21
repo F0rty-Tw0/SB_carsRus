@@ -8,6 +8,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
 import cars.rus.Entities.Car;
@@ -18,6 +19,7 @@ import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
 
 @Configuration
+@ConditionalOnProperty(value="otpConfig", havingValue="production")
 public class DataSetup implements CommandLineRunner {
 
   private CarRepository carRepository;

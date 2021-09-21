@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import cars.rus.Configuration.TestDataSetup;
+import cars.rus.Configuration.JpaDataMock;
 import cars.rus.Entities.Member;
 
 @DataJpaTest
@@ -20,7 +20,7 @@ public class MemberRepositoryTest {
 
   @BeforeEach
   public void setupMembers() {
-    TestDataSetup.createMembers(memberRepository);
+    JpaDataMock.createMembers(memberRepository);
   }
 
   @Test
