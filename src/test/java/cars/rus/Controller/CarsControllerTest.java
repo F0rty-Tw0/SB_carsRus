@@ -63,15 +63,6 @@ public class CarsControllerTest {
     return response;
   }
 
-  private <T> ResponseEntity<T> getResponseParametrized(String path1, String path2) {
-    HttpEntity<String> entity = new HttpEntity<>(null, headers);
-    ResponseEntity<T> response = restTemplate.exchange(makeUrl(BASE_PATH + path1 + "/" + path2), HttpMethod.GET, entity,
-        new ParameterizedTypeReference<T>() {
-        });
-    System.out.println(response);
-    return response;
-  }
-
   @Test
   void testAddCar() {
 
