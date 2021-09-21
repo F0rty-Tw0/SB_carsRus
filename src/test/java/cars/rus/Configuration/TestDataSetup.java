@@ -14,20 +14,20 @@ import cars.rus.Repositories.ReservationRepository;
 
 @Transactional
 public class TestDataSetup {
-  private static Car car = new Car("Audi", "A5", 60);
-  private static Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526",
-      "art@gmail.com");
 
   public static void createCars(CarRepository carRepository) {
+    Car car = new Car("Audi", "A5", 60);
+    carRepository.deleteAll();
     carRepository.save(car);
     carRepository.save(new Car("Toyota", "Corolla", 30));
     carRepository.save(new Car("Toyota", "Yaris", 30));
     carRepository.save(new Car("Mercedes", "CLA", 50));
     carRepository.save(new Car("Porsche", "Cayenne", 100));
-
   }
 
   public static void createMembers(MemberRepository memberRepository) {
+    Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com");
+    memberRepository.deleteAll();
     memberRepository.save(member);
     memberRepository.save(new Member("John", "Digweed", "Piedras 623", "Brussels", "2010", "john@gmail.com", true, 5));
     memberRepository
@@ -37,5 +37,17 @@ public class TestDataSetup {
     memberRepository
         .save(new Member("David", "Guetta", "Hauptstr. 5", "Buenas Aires", "5818", "david@gmail.com", false, 2));
 
+  }
+
+  public static void createReservation(ReservationRepository reservationRepository, MemberRepository memberRepository,
+      CarRepository carRepository) {
+    Car car = new Car("Audi", "A5", 60);
+    Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com");
+    reservationRepository.deleteAll();
+    memberRepository.deleteAll();
+    carRepository.deleteAll();
+    memberRepository.save(member);
+    carRepository.save(car);
+    reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), member, car));
   }
 }

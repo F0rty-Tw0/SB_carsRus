@@ -3,7 +3,7 @@ package cars.rus.Entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+// import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -103,18 +103,19 @@ public class Car {
     reservation.setCar(this);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Car car = (Car) o;
-    return id == car.id && Objects.equals(dateCreated, car.dateCreated) && Objects.equals(dateEdited, car.dateEdited);
-  }
+  // @Override
+  // public boolean equals(Object o) {
+  // if (this == o)
+  // return true;
+  // if (o == null || getClass() != o.getClass())
+  // return false;
+  // Car car = (Car) o;
+  // return id == car.id && Objects.equals(dateCreated, car.dateCreated) &&
+  // Objects.equals(dateEdited, car.dateEdited);
+  // }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, dateCreated, dateEdited);
-  }
+  // @Override
+  // public int hashCode() {
+  // return Objects.hash(id, dateCreated, dateEdited);
+  // }
 }
