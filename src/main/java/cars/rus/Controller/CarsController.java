@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ import cars.rus.DTO.CarInput;
 import cars.rus.Service.CarService;
 import cars.rus.Utils.CheckSimple;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -63,14 +63,14 @@ public class CarsController {
     return carService.updateOrAddCar(car, id);
   }
 
-  @ApiOperation("Adds a Car ('type = simpl' - simplifies the returned data)")
+  @ApiOperation("Adds a Car ('type = simple' - simplifies the returned data)")
   @PostMapping()
   public CarDTO addCar(@RequestBody CarInput car) {
     System.out.println(car.getBrand());
     return carService.addCar(car);
   }
-  
-  @ApiOperation("Deletes the Car by id ('type = simpl' - simplifies the returned data)")
+
+  @ApiOperation("Deletes the Car by id ('type = simple' - simplifies the returned data)")
   @DeleteMapping("/{id}")
   public void deleteCarById(@PathVariable Long id) {
     carService.deleteCarById(id);

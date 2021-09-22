@@ -1,18 +1,16 @@
 package cars.rus.DTO;
 
-import java.time.LocalDateTime;
-
 import cars.rus.Entities.Car;
 
 public class CarInput {
   private String brand;
   private String model;
-  private int pricePerDay;
+  private Integer pricePerDay;
 
   public CarInput() {
   }
 
-  public CarInput(String brand, String model, int pricePerDay) {
+  public CarInput(String brand, String model, Integer pricePerDay) {
     this.brand = brand;
     this.model = model;
     this.pricePerDay = pricePerDay;
@@ -34,11 +32,11 @@ public class CarInput {
     this.model = model;
   }
 
-  public int getPricePerDay() {
+  public Integer getPricePerDay() {
     return pricePerDay;
   }
 
-  public void setPricePerDay(int pricePerDay) {
+  public void setPricePerDay(Integer pricePerDay) {
     this.pricePerDay = pricePerDay;
   }
 

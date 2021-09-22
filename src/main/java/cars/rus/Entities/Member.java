@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -45,6 +47,7 @@ public class Member {
   @UpdateTimestamp
   private LocalDateTime dateEdited;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
   private List<Reservation> allReservations = new ArrayList<>();
 
@@ -110,6 +113,10 @@ public class Member {
     return city;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public void setCity(String city) {
     this.city = city;
   }
@@ -162,9 +169,17 @@ public class Member {
     this.dateEdited = dateEdited;
   }
 
+  public List<Reservation> getAllReservations() {
+    return allReservations;
+  }
+
+  public void setAllReservations(List<Reservation> allReservations) {
+    this.allReservations = allReservations;
+  }
+
   public void addReservation(Reservation reservation) {
     allReservations.add(reservation);
     reservation.setMember(this);
   }
-  
+
 }

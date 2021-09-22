@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -37,6 +39,7 @@ public class Car {
   @UpdateTimestamp
   private LocalDateTime dateEdited;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "car", cascade = CascadeType.PERSIST)
   private List<Reservation> allReservations = new ArrayList<>();
 
@@ -52,6 +55,17 @@ public class Car {
     this.brand = brand;
     this.model = model;
     this.pricePerDay = pricePerDay;
+  }
+
+  public Car(Long id, String brand, String model, int pricePerDay, LocalDateTime dateCreated, LocalDateTime dateEdited,
+      List<Reservation> allReservations) {
+    this.id = id;
+    this.brand = brand;
+    this.model = model;
+    this.pricePerDay = pricePerDay;
+    this.dateCreated = dateCreated;
+    this.dateEdited = dateEdited;
+    this.allReservations = allReservations;
   }
 
   public Long getId() {
@@ -78,6 +92,11 @@ public class Car {
     return pricePerDay;
   }
 
+  
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public void setPricePerDay(int pricePerDay) {
     this.pricePerDay = pricePerDay;
   }
@@ -96,6 +115,15 @@ public class Car {
 
   public void setDateEdited(LocalDateTime dateEdited) {
     this.dateEdited = dateEdited;
+  }
+
+  
+  public List<Reservation> getAllReservations() {
+    return allReservations;
+  }
+
+  public void setAllReservations(List<Reservation> allReservations) {
+    this.allReservations = allReservations;
   }
 
   public void addReservation(Reservation reservation) {

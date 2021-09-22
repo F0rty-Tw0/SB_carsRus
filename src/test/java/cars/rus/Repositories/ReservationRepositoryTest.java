@@ -75,7 +75,7 @@ public class ReservationRepositoryTest {
 
   @Test
   void testFindTopByOrderByIdDesc() {
-    Long lastReservationMemberId = reservationRepository.findTopByOrderByIdDesc().getMember().getId();
+    Long lastReservationMemberId = reservationRepository.findTopByOrderByIdDesc().getId();
     assertEquals(1, lastReservationMemberId);
   }
 
