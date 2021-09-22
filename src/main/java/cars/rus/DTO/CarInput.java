@@ -8,7 +8,6 @@ public class CarInput {
   private String brand;
   private String model;
   private int pricePerDay;
-  private LocalDateTime dateEdited;
 
   public CarInput() {
   }
@@ -41,14 +40,6 @@ public class CarInput {
 
   public void setPricePerDay(int pricePerDay) {
     this.pricePerDay = pricePerDay;
-  }
-
-  public LocalDateTime getDateEdited() {
-    return dateEdited;
-  }
-
-  public void setDateEdited(LocalDateTime dateEdited) {
-    this.dateEdited = dateEdited;
   }
 
   public static Car getCarFromInput(CarInput carInput) {

@@ -40,6 +40,7 @@ public class CarServiceImpl implements CarService {
 
   public CarDTO addCar(CarInput carInput) {
     Car newCar = carRepository.save(CarInput.getCarFromInput(carInput));
+    System.out.println(carInput.getBrand());
     return new CarDTO(newCar);
   }
 
@@ -52,7 +53,6 @@ public class CarServiceImpl implements CarService {
       foundCar.get().setBrand(carInput.getBrand());
       foundCar.get().setModel(carInput.getModel());
       foundCar.get().setPricePerDay(carInput.getPricePerDay());
-      foundCar.get().setDateEdited(carInput.getDateEdited());
       newCar = carRepository.save(foundCar.get());
     }
     return new CarDTO(newCar);
