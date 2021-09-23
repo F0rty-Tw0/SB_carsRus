@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-###application propreties###
-src/main/resources/application.properties
-
 ### STS ###
 .apt_generated
 .classpath
@@ -15,6 +12,7 @@ src/main/resources/application.properties
 .settings
 .springBeans
 .sts4-cache
+launch.json
 
 ### IntelliJ IDEA ###
 .idea
