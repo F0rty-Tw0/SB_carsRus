@@ -63,8 +63,6 @@ public class CarsControllerTest {
       String jsonReq = mapper.writeValueAsString(req);
       headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
       HttpEntity<String> request = new HttpEntity<>(jsonReq, headers);
-      System.out.println(request.getHeaders());
-      System.out.println(request.getBody());
       // Make the HTTP POST request
       response = restTemplate.exchange(url, method, request, new ParameterizedTypeReference<RES>() {
       });
