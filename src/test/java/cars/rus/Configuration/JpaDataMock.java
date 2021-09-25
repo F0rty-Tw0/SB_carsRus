@@ -16,9 +16,8 @@ import cars.rus.Repositories.ReservationRepository;
 public class JpaDataMock {
 
   public static void createCars(CarRepository carRepository) {
-    Car car = new Car("Audi", "A5", 60);
     carRepository.deleteAll();
-    carRepository.save(car);
+    carRepository.save(new Car("Audi", "A5", 60));
     carRepository.save(new Car("Toyota", "Corolla", 30));
     carRepository.save(new Car("Toyota", "Yaris", 30));
     carRepository.save(new Car("Mercedes", "CLA", 50));
@@ -26,9 +25,8 @@ public class JpaDataMock {
   }
 
   public static void createMembers(MemberRepository memberRepository) {
-    Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com");
     memberRepository.deleteAll();
-    memberRepository.save(member);
+    memberRepository.save(new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com"));
     memberRepository.save(new Member("John", "Digweed", "Piedras 623", "Brussels", "2010", "john@gmail.com", true, 5));
     memberRepository
         .save(new Member("Paul", "Van Dyke", "French 392", "Manpack", "IX991", "Ppaul@gmail.com", false, 6));
@@ -41,13 +39,13 @@ public class JpaDataMock {
 
   public static void createReservation(ReservationRepository reservationRepository, MemberRepository memberRepository,
       CarRepository carRepository) {
-    Car car = new Car("Audi", "A5", 60);
-    Member member = new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com");
+
     reservationRepository.deleteAll();
     memberRepository.deleteAll();
     carRepository.deleteAll();
-    memberRepository.save(member);
-    carRepository.save(car);
+    Car car = carRepository.save(new Car("Audi", "A5", 60));
+    Member member = memberRepository
+        .save(new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com"));
     reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), member, car));
   }
 }

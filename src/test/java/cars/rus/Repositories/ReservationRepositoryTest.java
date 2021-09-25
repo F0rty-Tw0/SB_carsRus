@@ -44,26 +44,28 @@ public class ReservationRepositoryTest {
   }
 
   @Test
-  void testFindReservationByCarIdAndRentalDate() {
+  void testFindReservationByReservedCarIdAndRentalDate() {
     Long lastReservationId = reservationRepository.findTopByOrderByIdDesc().getId();
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
     Long foundReservationId = reservationRepository
-        .findReservationByCarIdAndRentalDate(lastCarId, LocalDate.of(2021, Month.JANUARY, 25)).get().getId();
+        .findReservationByReservedCarIdAndRentalDate(lastCarId, LocalDate.of(2021, Month.JANUARY, 25)).get().getId();
     assertEquals(lastReservationId, foundReservationId);
   }
 
   @Test
-  void testFindReservationByMemberId() {
+  void testFindReservationsByReservedToMemberId() {
     Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
-    int foundReservations = reservationRepository.findReservationsByMemberId(lastMemberId).size();
+    int foundReservations = reservationRepository.findReservationsByReservedToMemberId(lastMemberId).size();
     assertEquals(1, foundReservations);
   }
 
   @Test
-  void testFindReservationByMemberIdAndRentalDate() {
+  void TestFindReservationByReservedToMemberIdAndRentalDate() {
     Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
-    int foundReservations = reservationRepository.findReservationsByMemberId(lastMemberId).size();
-    assertEquals(1, foundReservations);
+    Long foundReservations = reservationRepository
+        .findReservationByReservedToMemberIdAndRentalDate(lastMemberId, LocalDate.of(2021, Month.JANUARY, 25)).get()
+        .getReservedToMember().getId();
+    assertEquals(lastMemberId, foundReservations);
   }
 
   @Test
@@ -80,9 +82,9 @@ public class ReservationRepositoryTest {
   }
 
   @Test
-  void testFindReservationsByCarId() {
+  void testFindReservationsByReservedCarId() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    int foundReservations = reservationRepository.findReservationsByCarId(lastCarId).size();
+    int foundReservations = reservationRepository.findReservationsByReservedCarId(lastCarId).size();
     assertEquals(1, foundReservations);
   }
 }

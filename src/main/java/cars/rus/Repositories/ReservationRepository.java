@@ -9,13 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import cars.rus.Entities.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-  public Optional<Reservation> findReservationByCarIdAndRentalDate(Long carId, LocalDate rentalDate);
+  public Optional<Reservation> findReservationByReservedCarIdAndRentalDate(Long carId, LocalDate rentalDate);
 
-  public Optional<Reservation> findReservationByMemberIdAndRentalDate(Long memberId, LocalDate rentalDate);
+  public Optional<Reservation> findReservationByReservedToMemberIdAndRentalDate(Long memberId, LocalDate rentalDate);
 
-  public List<Reservation> findReservationsByCarId(Long carId);
+  public List<Reservation> findReservationsByReservedCarId(Long carId);
 
-  public List<Reservation> findReservationsByMemberId(Long memberId);
+  public List<Reservation> findReservationsByReservedToMemberId(Long memberId);
 
   public List<Reservation> findReservationsByRentalDate(LocalDate rentalDate);
 

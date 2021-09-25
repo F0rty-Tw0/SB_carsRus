@@ -1,5 +1,6 @@
 package cars.rus.Controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import cars.rus.DTO.CarDTO;
 import cars.rus.DTO.CarInput;
 import cars.rus.Service.CarService;
@@ -65,12 +66,13 @@ public class CarsController {
 
   @ApiOperation("Adds a Car ('type = simple' - simplifies the returned data)")
   @PostMapping()
+  @ResponseStatus(HttpStatus.CREATED)
   public CarDTO addCar(@RequestBody CarInput car) {
-    System.out.println(car.getBrand());
     return carService.addCar(car);
   }
 
   @ApiOperation("Deletes the Car by id ('type = simple' - simplifies the returned data)")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
   public void deleteCarById(@PathVariable Long id) {
     carService.deleteCarById(id);

@@ -1,6 +1,7 @@
 package cars.rus.Repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -33,9 +34,10 @@ public class CarRepositoryTest {
 
   @Test
   void testDeleteCarById() {
+    Optional<Car> existedCar = carRepository.findById(2l);
     carRepository.deleteCarById(2l);
     Optional<Car> foundCar = carRepository.findById(2l);
-    assertTrue(!foundCar.isPresent());
+    assertFalse(foundCar.isPresent() && !existedCar.isPresent());
   }
 
   @Test
