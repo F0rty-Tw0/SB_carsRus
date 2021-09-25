@@ -1,10 +1,14 @@
 package cars.rus.DTO;
 
 import cars.rus.Entities.Car;
+import io.swagger.v3.oas.annotations.Parameter;
 
 public class CarInput {
+  @Parameter(description = "my first attribute", required = true)
   private String brand;
+  @Parameter(description = "my second attribute", required = true)
   private String model;
+  @Parameter(description = "my third attribute", required = false)
   private Integer pricePerDay;
 
   public CarInput() {

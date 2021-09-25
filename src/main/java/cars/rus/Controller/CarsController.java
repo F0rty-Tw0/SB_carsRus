@@ -2,6 +2,7 @@ package cars.rus.Controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +65,7 @@ public class CarsController {
     return carService.updateOrAddCar(car, id);
   }
 
-  @ApiOperation("Adds a Car ('type = simple' - simplifies the returned data)")
+  @ApiOperation(value = "Adds a Car ('type = simple' - simplifies the returned data)", response = Procedure.class)
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public CarDTO addCar(@RequestBody CarInput car) {

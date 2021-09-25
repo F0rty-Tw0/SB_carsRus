@@ -9,13 +9,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import cars.rus.Entities.Car;
 import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @ApiModel
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarDTO {
 
   private Long id;
+  @Parameter(description = "my first attribute", required = true)
   private String brand;
+  @Parameter(description = "my first attribute", required = true)
   private String model;
   private int pricePerDay;
   private LocalDateTime dateCreated;

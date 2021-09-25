@@ -125,10 +125,10 @@ public class CarsControllerTest {
 
   }
 
-  // @Test
-  // void testDeleteCarById() {
-  // ResponseEntity<CarDTO> response = queryRemoteService(null, HttpMethod.DELETE,
-  // "/1");
-  // }
+  @Test
+  void testDeleteCarById() {
+    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
+    ResponseEntity<CarDTO> response = queryRemoteService(null, HttpMethod.DELETE, ("/" + lastCarId));
+  }
 
 }

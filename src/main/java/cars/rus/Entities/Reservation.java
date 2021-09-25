@@ -2,7 +2,9 @@ package cars.rus.Entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +24,10 @@ public class Reservation {
 
   private LocalDate rentalDate;
 
-  @ManyToOne()
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Member reservedToMember;
 
-  @ManyToOne() // cascade = CascadeType.ALL, fetch = FetchType.LAZY
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 
   private Car reservedCar;
 
   public Reservation() {
