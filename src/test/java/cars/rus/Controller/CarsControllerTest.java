@@ -1,6 +1,7 @@
 package cars.rus.Controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.CarDTO;
 import cars.rus.DTO.CarInput;
 import cars.rus.Repositories.CarRepository;
+import cars.rus.Repositories.MemberRepository;
+import cars.rus.Repositories.ReservationRepository;
 
 @SpringBootTest(classes = cars.rus.CarsRUsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -35,13 +39,22 @@ import cars.rus.Repositories.CarRepository;
 @EnableAutoConfiguration
 public class CarsControllerTest {
   @Autowired
-  CarRepository carRepository;
+  private ReservationRepository reservationRepository;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private CarRepository carRepository;
   @Autowired
   TestRestTemplate restTemplate;
 
   @BeforeEach
-  public void setupCars() {
-    JpaDataMock.createCars(carRepository);
+  public void setupData() {
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
+  }
+
+  @AfterEach
+  public void cleanUpData() {
+    JpaDataMock.cleanUpData(carRepository, memberRepository, reservationRepository);
   }
 
   private final String BASE_PATH = "/api/cars";
@@ -127,8 +140,10 @@ public class CarsControllerTest {
 
   @Test
   void testDeleteCarById() {
-    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    ResponseEntity<CarDTO> response = queryRemoteService(null, HttpMethod.DELETE, ("/" + lastCarId));
+    Long carId = carRepository.findAll().get(0).getId();
+    queryRemoteService(null, HttpMethod.DELETE, ("/" + carId));
+    Long newCarId = carRepository.findAll().get(0).getId();
+    assertFalse(newCarId == carId);
   }
 
 }

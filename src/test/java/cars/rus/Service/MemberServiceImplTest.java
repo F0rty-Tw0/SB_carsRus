@@ -13,14 +13,20 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.MemberInput;
 import cars.rus.Entities.Member;
+import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
+import cars.rus.Repositories.ReservationRepository;
 
 @DataJpaTest
 public class MemberServiceImplTest {
   MemberInput memberInput = new MemberInput("Artiom", "Tofan", "30 Commercial Road", "New York", "1526",
       "arty@gmail.com");
   @Autowired
-  MemberRepository memberRepository;
+  private ReservationRepository reservationRepository;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private CarRepository carRepository;
 
   MemberServiceImpl memberServiceImpl;
 
@@ -31,7 +37,7 @@ public class MemberServiceImplTest {
 
   @BeforeEach
   public void setupMembers() {
-    JpaDataMock.createMembers(memberRepository);
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
   }
 
   @Test

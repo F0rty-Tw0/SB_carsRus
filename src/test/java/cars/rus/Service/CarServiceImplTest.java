@@ -14,11 +14,17 @@ import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.CarInput;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
+import cars.rus.Repositories.MemberRepository;
+import cars.rus.Repositories.ReservationRepository;
 
 @DataJpaTest
 public class CarServiceImplTest {
   private CarInput carInput = new CarInput("Jeep", "Raw 4", 50);
 
+  @Autowired
+  private ReservationRepository reservationRepository;
+  @Autowired
+  private MemberRepository memberRepository;
   @Autowired
   private CarRepository carRepository;
 
@@ -31,7 +37,7 @@ public class CarServiceImplTest {
 
   @BeforeEach
   public void createCars() {
-    JpaDataMock.createCars(carRepository);
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
   }
 
   @Test

@@ -40,7 +40,7 @@ public class Car {
   private LocalDateTime dateEdited;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "reservedCar", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @OneToMany(mappedBy = "reservedCar", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reservation> allReservations = new ArrayList<>();
 
   public Car() {
@@ -127,6 +127,11 @@ public class Car {
   public void addReservation(Reservation reservation) {
     allReservations.add(reservation);
     reservation.setReservedCar(this);
+  }
+
+  public void removeReservation(Reservation reservation) {
+    allReservations.remove(reservation);
+    reservation.setReservedCar(null);
   }
 
   // @Override

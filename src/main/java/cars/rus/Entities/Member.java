@@ -48,7 +48,7 @@ public class Member {
   private LocalDateTime dateEdited;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "reservedToMember", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @OneToMany(mappedBy = "reservedToMember", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reservation> allReservations = new ArrayList<>();
 
   public Member() {
@@ -182,4 +182,8 @@ public class Member {
     reservation.setReservedToMember(this);
   }
 
+  public void removeReservation(Reservation reservation) {
+    allReservations.remove(reservation);
+    reservation.setReservedToMember(null);
+  }
 }

@@ -3,8 +3,6 @@ package cars.rus.Configuration;
 import java.time.LocalDate;
 import java.time.Month;
 
-import javax.transaction.Transactional;
-
 import cars.rus.Entities.Car;
 import cars.rus.Entities.Member;
 import cars.rus.Entities.Reservation;
@@ -12,20 +10,16 @@ import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
 
-@Transactional
 public class JpaDataMock {
 
-  public static void createCars(CarRepository carRepository) {
-    carRepository.deleteAll();
+  public static void setupData(CarRepository carRepository, MemberRepository memberRepository,
+      ReservationRepository reservationRepository) {
     carRepository.save(new Car("Audi", "A5", 60));
     carRepository.save(new Car("Toyota", "Corolla", 30));
     carRepository.save(new Car("Toyota", "Yaris", 30));
     carRepository.save(new Car("Mercedes", "CLA", 50));
     carRepository.save(new Car("Porsche", "Cayenne", 100));
-  }
 
-  public static void createMembers(MemberRepository memberRepository) {
-    memberRepository.deleteAll();
     memberRepository.save(new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com"));
     memberRepository.save(new Member("John", "Digweed", "Piedras 623", "Brussels", "2010", "john@gmail.com", true, 5));
     memberRepository
@@ -35,17 +29,16 @@ public class JpaDataMock {
     memberRepository
         .save(new Member("David", "Guetta", "Hauptstr. 5", "Buenas Aires", "5818", "david@gmail.com", false, 2));
 
+    reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 24), memberRepository.findAll().get(0),
+        carRepository.findAll().get(0)));
+    reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), memberRepository.findAll().get(1),
+        carRepository.findAll().get(0)));
   }
 
-  public static void createReservation(ReservationRepository reservationRepository, MemberRepository memberRepository,
-      CarRepository carRepository) {
-
+  public static void cleanUpData(CarRepository carRepository, MemberRepository memberRepository,
+      ReservationRepository reservationRepository) {
     reservationRepository.deleteAll();
-    memberRepository.deleteAll();
     carRepository.deleteAll();
-    Car car = carRepository.save(new Car("Audi", "A5", 60));
-    Member member = memberRepository
-        .save(new Member("Artiom", "Tofan", "30 Commercial Road", "New York", "1526", "art@gmail.com"));
-    reservationRepository.save(new Reservation(LocalDate.of(2021, Month.JANUARY, 25), member, car));
+    memberRepository.deleteAll();
   }
 }

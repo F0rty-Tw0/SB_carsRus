@@ -27,7 +27,7 @@ public class ReservationRepositoryTest {
 
   @BeforeEach
   public void setupReservations() {
-    JpaDataMock.createReservation(reservationRepository, memberRepository, carRepository);
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
   }
 
   @Test
@@ -46,26 +46,26 @@ public class ReservationRepositoryTest {
   @Test
   void testFindReservationByReservedCarIdAndRentalDate() {
     Long lastReservationId = reservationRepository.findTopByOrderByIdDesc().getId();
-    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
+    Long carId = carRepository.findAll().get(0).getId();
     Long foundReservationId = reservationRepository
-        .findReservationByReservedCarIdAndRentalDate(lastCarId, LocalDate.of(2021, Month.JANUARY, 25)).get().getId();
+        .findReservationByReservedCarIdAndRentalDate(carId, LocalDate.of(2021, Month.JANUARY, 25)).get().getId();
     assertEquals(lastReservationId, foundReservationId);
   }
 
   @Test
   void testFindReservationsByReservedToMemberId() {
-    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
-    int foundReservations = reservationRepository.findReservationsByReservedToMemberId(lastMemberId).size();
+    Long memberId = memberRepository.findAll().get(1).getId();
+    int foundReservations = reservationRepository.findReservationsByReservedToMemberId(memberId).size();
     assertEquals(1, foundReservations);
   }
 
   @Test
   void TestFindReservationByReservedToMemberIdAndRentalDate() {
-    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
+    Long memberId = memberRepository.findAll().get(1).getId();
     Long foundReservations = reservationRepository
-        .findReservationByReservedToMemberIdAndRentalDate(lastMemberId, LocalDate.of(2021, Month.JANUARY, 25)).get()
+        .findReservationByReservedToMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 25)).get()
         .getReservedToMember().getId();
-    assertEquals(lastMemberId, foundReservations);
+    assertEquals(memberId, foundReservations);
   }
 
   @Test
@@ -77,14 +77,15 @@ public class ReservationRepositoryTest {
 
   @Test
   void testFindTopByOrderByIdDesc() {
-    Long lastReservationMemberId = reservationRepository.findTopByOrderByIdDesc().getId();
-    assertEquals(1, lastReservationMemberId);
+    Long reservationId = reservationRepository.findAll().get(1).getId();
+    Long lastReservationId = reservationRepository.findTopByOrderByIdDesc().getId();
+    assertEquals(reservationId, lastReservationId);
   }
 
   @Test
   void testFindReservationsByReservedCarId() {
-    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    int foundReservations = reservationRepository.findReservationsByReservedCarId(lastCarId).size();
-    assertEquals(1, foundReservations);
+    Long carId = carRepository.findAll().get(0).getId();
+    int foundReservations = reservationRepository.findReservationsByReservedCarId(carId).size();
+    assertEquals(2, foundReservations);
   }
 }

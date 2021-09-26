@@ -16,11 +16,15 @@ import cars.rus.Entities.Member;
 @DataJpaTest
 public class MemberRepositoryTest {
   @Autowired
-  MemberRepository memberRepository;
+  private ReservationRepository reservationRepository;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private CarRepository carRepository;
 
   @BeforeEach
   public void setupMembers() {
-    JpaDataMock.createMembers(memberRepository);
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
   }
 
   @Test
