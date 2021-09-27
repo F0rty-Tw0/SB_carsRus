@@ -3,7 +3,6 @@ package cars.rus.Entities;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,11 +22,11 @@ public class Reservation {
 
   private LocalDate rentalDate;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Member reservedToMember;
+  @ManyToOne()
+  private Member member;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Car reservedCar;
+  @ManyToOne()
+  private Car car;
 
   public Reservation() {
   }
@@ -36,10 +35,10 @@ public class Reservation {
     this.rentalDate = rentalDate;
   }
 
-  public Reservation(LocalDate rentalDate, Member reservedToMember, Car reservedCar) {
+  public Reservation(LocalDate rentalDate, Member member, Car car) {
     this.rentalDate = rentalDate;
-    this.reservedToMember = reservedToMember;
-    this.reservedCar = reservedCar;
+    this.member = member;
+    this.car = car;
   }
 
   public Long getId() {
@@ -66,20 +65,20 @@ public class Reservation {
     this.rentalDate = rentalDate;
   }
 
-  public Member getReservedToMember() {
-    return reservedToMember;
+  public Member getMember() {
+    return member;
   }
 
-  public void setReservedToMember(Member reservedToMember) {
-    this.reservedToMember = reservedToMember;
+  public void setMember(Member member) {
+    this.member = member;
   }
 
-  public Car getReservedCar() {
-    return reservedCar;
+  public Car getCar() {
+    return car;
   }
 
-  public void setReservedCar(Car reservedCar) {
-    this.reservedCar = reservedCar;
+  public void setCar(Car car) {
+    this.car = car;
   }
 
 }

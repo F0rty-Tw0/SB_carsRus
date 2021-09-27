@@ -1,6 +1,7 @@
 package cars.rus.DTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -8,6 +9,7 @@ import java.util.stream.StreamSupport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import cars.rus.Entities.Member;
+import cars.rus.Entities.Reservation;
 import io.swagger.annotations.ApiModel;
 
 @ApiModel
@@ -24,6 +26,7 @@ public class MemberDTO {
   private int ranking;
   private LocalDateTime dateCreated;
   private LocalDateTime dateEdited;
+  List<Reservation> allReservations = new ArrayList<Reservation>();
 
   public MemberDTO() {
   }
@@ -41,13 +44,15 @@ public class MemberDTO {
     this.dateEdited = member.getDateEdited();
   }
 
-  public MemberDTO(String firstName, String lastName, String street, String city, String zip, String email) {
+  public MemberDTO(String firstName, String lastName, String street, String city, String zip, String email,
+      List<Reservation> allReservations) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.street = street;
     this.city = city;
     this.zip = zip;
     this.email = email;
+    this.allReservations = allReservations;
   }
 
   public MemberDTO(String firstName, String lastName, String street, String city, String zip, String email,
@@ -165,11 +170,19 @@ public class MemberDTO {
     this.dateEdited = dateEdited;
   }
 
+  public List<Reservation> getAllReservations() {
+    return allReservations;
+  }
+
+  public void setAllReservations(List<Reservation> allReservations) {
+    this.allReservations = allReservations;
+  }
+
   public static List<MemberDTO> getMemberDTOs(Iterable<Member> allMembers, boolean simple) {
     List<MemberDTO> DTO = StreamSupport.stream(allMembers.spliterator(), false)
         .map(member -> simple
             ? new MemberDTO(member.getFirstName(), member.getLastName(), member.getStreet(), member.getCity(),
-                member.getZip(), member.getEmail())
+                member.getZip(), member.getEmail(), member.getAllReservations())
             : new MemberDTO(member))
         .collect(Collectors.toList());
     return DTO;
@@ -178,7 +191,7 @@ public class MemberDTO {
   public static MemberDTO getMemberDTO(Member member, boolean simple) {
     return simple
         ? new MemberDTO(member.getFirstName(), member.getLastName(), member.getStreet(), member.getCity(),
-            member.getZip(), member.getEmail())
+            member.getZip(), member.getEmail(), member.getAllReservations())
         : new MemberDTO(member);
   }
 }

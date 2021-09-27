@@ -1,6 +1,7 @@
 package cars.rus.DTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -8,6 +9,7 @@ import java.util.stream.StreamSupport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import cars.rus.Entities.Car;
+import cars.rus.Entities.Reservation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.Parameter;
 
@@ -24,6 +26,8 @@ public class CarDTO {
   private LocalDateTime dateCreated;
   private LocalDateTime dateEdited;
 
+  List<Reservation> allReservations = new ArrayList<Reservation>();
+
   public CarDTO() {
   }
 
@@ -36,10 +40,11 @@ public class CarDTO {
     this.dateEdited = car.getDateEdited();
   }
 
-  public CarDTO(String brand, String model, int pricePerDay) {
+  public CarDTO(String brand, String model, int pricePerDay, List<Reservation> reservation) {
     this.brand = brand;
     this.model = model;
     this.pricePerDay = pricePerDay;
+    this.allReservations = reservation;
   }
 
   public CarDTO(Long id, String brand, String model, int pricePerDay, LocalDateTime dateCreated,
@@ -100,20 +105,24 @@ public class CarDTO {
     this.dateEdited = dateEdited;
   }
 
+  public List<Reservation> getAllReservations() {
+    return allReservations;
+  }
+
+  public void setAllReservations(List<Reservation> allReservations) {
+    this.allReservations = allReservations;
+  }
+
   public static List<CarDTO> getCarDTOs(Iterable<Car> allCars, boolean simple) {
     List<CarDTO> DTO = StreamSupport.stream(allCars.spliterator(), false)
-        .map(car -> simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay()) : new CarDTO(car))
+        .map(car -> simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay(), car.getAllReservations())
+            : new CarDTO(car))
         .collect(Collectors.toList());
     return DTO;
   }
 
   public static CarDTO getCarDTO(Car car, boolean simple) {
-    return simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay()) : new CarDTO(car);
+    return simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay(), car.getAllReservations())
+        : new CarDTO(car);
   }
-
-  // public static CarDTO getCarDTO(Car car, boolean simple) {
-  // CarDTO DTO = simple ? new CarDTO(car.getBrand(), car.getModel(),
-  // car.getPricePerDay()) : new CarDTO(car);
-  // return DTO;
-  // }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import cars.rus.Entities.Car;
 
 @Repository
-
 public interface CarRepository extends JpaRepository<Car, Long> {
 
   public Optional<Car> findById(Long id);
