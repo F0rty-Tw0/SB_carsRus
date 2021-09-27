@@ -40,7 +40,7 @@ public class Car {
   private LocalDateTime dateEdited;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "car", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "reservedCar", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reservation> allReservations = new ArrayList<>();
 
   public Car() {
@@ -92,7 +92,6 @@ public class Car {
     return pricePerDay;
   }
 
-  
   public void setId(Long id) {
     this.id = id;
   }
@@ -117,7 +116,6 @@ public class Car {
     this.dateEdited = dateEdited;
   }
 
-  
   public List<Reservation> getAllReservations() {
     return allReservations;
   }
@@ -128,7 +126,12 @@ public class Car {
 
   public void addReservation(Reservation reservation) {
     allReservations.add(reservation);
-    reservation.setCar(this);
+    reservation.setReservedCar(this);
+  }
+
+  public void removeReservation(Reservation reservation) {
+    allReservations.remove(reservation);
+    reservation.setReservedCar(null);
   }
 
   // @Override

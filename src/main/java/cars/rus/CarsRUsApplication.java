@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class RusApplication {
+public class CarsRUsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RusApplication.class, args);
+		SpringApplication.run(CarsRUsApplication.class, args);
 	}
 
 }

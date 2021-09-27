@@ -1,6 +1,11 @@
 package cars.rus.Controller;
 
+import org.springframework.http.HttpStatus;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import cars.rus.DTO.CarDTO;
 import cars.rus.DTO.CarInput;
 import cars.rus.Service.CarService;
@@ -57,20 +62,22 @@ public class CarsController {
     return carService.findCarById(id, checkSimple.isSimple(type));
   }
 
-  @ApiOperation("Updates a Car by id or Creates a Car if the id is not found ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Updates a Car by id or Creates a Car if the id is not found")
   @PutMapping("/{id}")
   public CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody CarInput car) {
     return carService.updateOrAddCar(car, id);
   }
 
-  @ApiOperation("Adds a Car ('type = simple' - simplifies the returned data)")
+  @ApiOperation(value = "Adds a Car", response = Procedure.class)
   @PostMapping()
-  public CarDTO addCar(@RequestBody CarInput car) {
-    System.out.println(car.getBrand());
-    return carService.addCar(car);
+  @ResponseStatus(HttpStatus.CREATED)
+  public CarDTO addCar(@RequestBody CarInput carInput) {
+    return carService.addCar(carInput);
   }
 
-  @ApiOperation("Deletes the Car by id ('type = simple' - simplifies the returned data)")
+  @Transactional
+  @ApiOperation("Deletes the Car by id")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
   public void deleteCarById(@PathVariable Long id) {
     carService.deleteCarById(id);

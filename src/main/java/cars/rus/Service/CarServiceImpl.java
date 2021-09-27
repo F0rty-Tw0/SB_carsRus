@@ -40,7 +40,6 @@ public class CarServiceImpl implements CarService {
 
   public CarDTO addCar(CarInput carInput) {
     Car newCar = carRepository.save(CarInput.getCarFromInput(carInput));
-    System.out.println(carInput.getBrand());
     return new CarDTO(newCar);
   }
 

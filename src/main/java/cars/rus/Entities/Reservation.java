@@ -2,17 +2,18 @@ package cars.rus.Entities;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity(name = "reservations")
+@Table(name = "reservations")
 public class Reservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +23,11 @@ public class Reservation {
 
   private LocalDate rentalDate;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Member reservedToMember;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Car car;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Car reservedCar;
 
   public Reservation() {
   }
@@ -35,10 +36,10 @@ public class Reservation {
     this.rentalDate = rentalDate;
   }
 
-  public Reservation(LocalDate rentalDate, Member member, Car car) {
+  public Reservation(LocalDate rentalDate, Member reservedToMember, Car reservedCar) {
     this.rentalDate = rentalDate;
-    this.member = member;
-    this.car = car;
+    this.reservedToMember = reservedToMember;
+    this.reservedCar = reservedCar;
   }
 
   public Long getId() {
@@ -65,20 +66,20 @@ public class Reservation {
     this.rentalDate = rentalDate;
   }
 
-  public Member getMember() {
-    return member;
+  public Member getReservedToMember() {
+    return reservedToMember;
   }
 
-  public void setMember(Member member) {
-    this.member = member;
+  public void setReservedToMember(Member reservedToMember) {
+    this.reservedToMember = reservedToMember;
   }
 
-  public Car getCar() {
-    return car;
+  public Car getReservedCar() {
+    return reservedCar;
   }
 
-  public void setCar(Car car) {
-    this.car = car;
+  public void setReservedCar(Car reservedCar) {
+    this.reservedCar = reservedCar;
   }
 
 }

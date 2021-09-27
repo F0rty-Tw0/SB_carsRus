@@ -1,11 +1,13 @@
 package cars.rus.Repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +16,23 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import cars.rus.Configuration.JpaDataMock;
 import cars.rus.Entities.Car;
 
-@DataJpaTest
+@DataJpaTest()
 public class CarRepositoryTest {
   @Autowired
-  CarRepository carRepository;
+  private ReservationRepository reservationRepository;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private CarRepository carRepository;
 
   @BeforeEach
-  public void setupCars() {
-    JpaDataMock.createCars(carRepository);
+  private void setUp() {
+    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
+  }
+
+  @AfterEach
+  public void cleanUpData() {
+    JpaDataMock.cleanUpData(carRepository, memberRepository, reservationRepository);
   }
 
   @Test
@@ -33,9 +44,10 @@ public class CarRepositoryTest {
 
   @Test
   void testDeleteCarById() {
-    carRepository.deleteCarById(2l);
-    Optional<Car> foundCar = carRepository.findById(2l);
-    assertTrue(!foundCar.isPresent());
+    Car existedCar = carRepository.findAll().get(1);
+    carRepository.deleteCarById(existedCar.getId());
+    Car foundNewCar = carRepository.findAll().get(1);
+    assertFalse(foundNewCar.getId() == existedCar.getId());
   }
 
   @Test
