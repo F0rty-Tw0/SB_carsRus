@@ -194,4 +194,10 @@ public class MemberDTO {
             member.getZip(), member.getEmail(), member.getAllReservations())
         : new MemberDTO(member);
   }
+
+  public Member getMember(MemberDTO memberDTO) {
+    return new Member(memberDTO.getId(), memberDTO.getFirstName(), memberDTO.getLastName(), memberDTO.getStreet(),
+        memberDTO.getCity(), memberDTO.getZip(), memberDTO.getEmail(), memberDTO.isApproved(), memberDTO.getRanking(),
+        memberDTO.getDateCreated(), memberDTO.getDateEdited(), memberDTO.getAllReservations());
+  }
 }

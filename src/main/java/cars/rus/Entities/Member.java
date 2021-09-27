@@ -81,6 +81,23 @@ public class Member {
     this.ranking = ranking;
   }
 
+  public Member(Long id, String firstName, String lastName, String street, String city, String zip, String email,
+      boolean approved, int ranking, LocalDateTime dateCreated, LocalDateTime dateEdited,
+      List<Reservation> allReservations) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.street = street;
+    this.city = city;
+    this.zip = zip;
+    this.email = email;
+    this.approved = approved;
+    this.ranking = ranking;
+    this.dateCreated = dateCreated;
+    this.dateEdited = dateEdited;
+    this.allReservations = allReservations;
+  }
+
   public Long getId() {
     return id;
   }

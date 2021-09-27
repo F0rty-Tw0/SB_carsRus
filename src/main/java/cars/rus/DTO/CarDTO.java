@@ -125,4 +125,9 @@ public class CarDTO {
     return simple ? new CarDTO(car.getBrand(), car.getModel(), car.getPricePerDay(), car.getAllReservations())
         : new CarDTO(car);
   }
+
+  public Car getCar(CarDTO carDTO) {
+    return new Car(carDTO.getId(), carDTO.getBrand(), carDTO.getModel(), carDTO.getPricePerDay(),
+        carDTO.getDateCreated(), carDTO.getDateEdited(), carDTO.getAllReservations());
+  }
 }

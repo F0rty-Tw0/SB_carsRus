@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cars.rus.DTO.ReservationDTO;
+import cars.rus.DTO.ReservationInput;
 import cars.rus.Entities.Reservation;
 import cars.rus.Repositories.ReservationRepository;
 
@@ -19,6 +20,13 @@ public class ReservationServiceImpl implements ReservationService {
   public List<ReservationDTO> findAllReservations(boolean simple) {
     Iterable<Reservation> allReservations = reservationRepository.findAll();
     return ReservationDTO.getReservationDTOs(allReservations, simple);
+  }
+
+  @Override
+  public ReservationDTO addReservation(ReservationInput reservationInput) {
+    Reservation newReservation = reservationRepository.save(ReservationInput.getReservationFromInput(reservationInput));
+    return new ReservationDTO(newReservation);
+
   }
 
 }
