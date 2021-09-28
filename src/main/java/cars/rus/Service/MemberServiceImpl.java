@@ -12,7 +12,6 @@ import cars.rus.Repositories.MemberRepository;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-
   private MemberRepository memberRepository;
 
   public MemberServiceImpl(MemberRepository memberRepository) {

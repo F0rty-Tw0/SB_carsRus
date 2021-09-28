@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.CarInput;
+import cars.rus.DTO.SimpleCarDTO;
 import cars.rus.Service.CarService;
 import cars.rus.Utils.CheckSimple;
 import io.swagger.annotations.ApiOperation;
@@ -64,15 +64,15 @@ public class CarsController {
 
   @ApiOperation("Updates a Car by id or Creates a Car if the id is not found")
   @PutMapping("/{id}")
-  public CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody CarInput car) {
-    return carService.updateOrAddCar(car, id);
+  public CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody SimpleCarDTO simpleCarDTO) {
+    return carService.updateOrAddCar(simpleCarDTO, id);
   }
 
   @ApiOperation(value = "Adds a Car", response = Procedure.class)
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
-  public CarDTO addCar(@RequestBody CarInput carInput) {
-    return carService.addCar(carInput);
+  public CarDTO addCar(@RequestBody SimpleCarDTO simpleCarDTO) {
+    return carService.addCar(simpleCarDTO);
   }
 
   @Transactional

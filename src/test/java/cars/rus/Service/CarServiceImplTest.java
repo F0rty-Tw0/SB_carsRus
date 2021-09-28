@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.CarInput;
+import cars.rus.DTO.SimpleCarDTO;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
@@ -19,7 +19,7 @@ import cars.rus.Repositories.ReservationRepository;
 
 @DataJpaTest
 public class CarServiceImplTest {
-  private CarInput carInput = new CarInput("Jeep", "Raw 4", 50);
+  private SimpleCarDTO simpleCarDTO = new SimpleCarDTO("Jeep", "Raw 4", 50);
 
   @Autowired
   private ReservationRepository reservationRepository;
@@ -42,14 +42,14 @@ public class CarServiceImplTest {
 
   @Test
   public void testAddCar() {
-    Long newCarId = carServiceImpl.addCar(carInput).getId();
-    assertTrue(newCarId > 0);
+    String newCarBrand = carServiceImpl.addCar(simpleCarDTO).getBrand();
+    assertEquals(newCarBrand, simpleCarDTO.getBrand());
   }
 
   @Test
   public void testUpdateOrAddCar() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    String updatedBrand = carServiceImpl.updateOrAddCar(carInput, lastCarId).getBrand();
+    String updatedBrand = carServiceImpl.updateOrAddCar(simpleCarDTO, lastCarId).getBrand();
     assertEquals("Jeep", updatedBrand);
   }
 
@@ -87,7 +87,8 @@ public class CarServiceImplTest {
   @Test
   void testFindCarById() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    Long foundCarId = carServiceImpl.findCarById(lastCarId, false).getId();
-    assertEquals(lastCarId, foundCarId);
+    String lastCarBrand = carRepository.findTopByOrderByIdDesc().getBrand();
+    String foundCarBrand = carServiceImpl.findCarById(lastCarId, false).getBrand();
+    assertEquals(lastCarBrand, foundCarBrand);
   }
 }

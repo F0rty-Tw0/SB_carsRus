@@ -1,21 +1,17 @@
 package cars.rus.DTO;
 
-import java.util.Collection;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import cars.rus.Entities.Reservation;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CarDTO {
+public class SimpleCarDTO {
   private String brand;
   private String model;
   private int pricePerDay;
-  private Collection<Reservation> allReservations;
-
-
 }

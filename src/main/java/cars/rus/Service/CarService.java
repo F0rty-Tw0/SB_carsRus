@@ -3,7 +3,7 @@ package cars.rus.Service;
 import java.util.List;
 
 import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.CarInput;
+import cars.rus.DTO.SimpleCarDTO;
 
 public interface CarService {
   public List<CarDTO> findCarsByBrand(String brand, boolean simple);
@@ -18,7 +18,7 @@ public interface CarService {
 
   public void deleteCarById(Long id);
 
-  public CarDTO addCar(CarInput carInput);
+  public CarDTO addCar(SimpleCarDTO simpleCarDTO);
 
-  public CarDTO updateOrAddCar(CarInput carInput, Long id);
+  public CarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id);
 }
