@@ -1,4 +1,4 @@
-package cars.rus.Controller;
+package cars.rus.Controller.MemberController;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cars.rus.DTO.MemberDTO;
-import cars.rus.DTO.MemberInput;
-import cars.rus.Service.MemberServiceImpl;
+import cars.rus.DTO.MemberDTO.MemberDTO;
+import cars.rus.DTO.MemberDTO.MemberInput;
+import cars.rus.Service.MemberService.MemberServiceImpl;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController

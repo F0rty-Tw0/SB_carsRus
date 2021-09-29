@@ -17,6 +17,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "members")
 public class Member {
 
@@ -51,15 +60,6 @@ public class Member {
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reservation> allReservations = new ArrayList<>();
 
-  public Member() {
-  }
-
-  public Member(String firstName, String lastName, String email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-  }
-
   public Member(String firstName, String lastName, String street, String city, String zip, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -79,119 +79,6 @@ public class Member {
     this.email = email;
     this.approved = approved;
     this.ranking = ranking;
-  }
-
-  public Member(Long id, String firstName, String lastName, String street, String city, String zip, String email,
-      boolean approved, int ranking, LocalDateTime dateCreated, LocalDateTime dateEdited,
-      List<Reservation> allReservations) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.street = street;
-    this.city = city;
-    this.zip = zip;
-    this.email = email;
-    this.approved = approved;
-    this.ranking = ranking;
-    this.dateCreated = dateCreated;
-    this.dateEdited = dateEdited;
-    this.allReservations = allReservations;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getStreet() {
-    return street;
-  }
-
-  public void setStreet(String street) {
-    this.street = street;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public String getZip() {
-    return zip;
-  }
-
-  public void setZip(String zip) {
-    this.zip = zip;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public boolean isApproved() {
-    return approved;
-  }
-
-  public void setApproved(boolean approved) {
-    this.approved = approved;
-  }
-
-  public int getRanking() {
-    return ranking;
-  }
-
-  public void setRanking(int ranking) {
-    this.ranking = ranking;
-  }
-
-  public LocalDateTime getDateCreated() {
-    return dateCreated;
-  }
-
-  public void setDateCreated(LocalDateTime dateCreated) {
-    this.dateCreated = dateCreated;
-  }
-
-  public LocalDateTime getDateEdited() {
-    return dateEdited;
-  }
-
-  public void setDateEdited(LocalDateTime dateEdited) {
-    this.dateEdited = dateEdited;
-  }
-
-  public List<Reservation> getAllReservations() {
-    return allReservations;
-  }
-
-  public void setAllReservations(List<Reservation> allReservations) {
-    this.allReservations = allReservations;
   }
 
   public void addReservation(Reservation reservation) {

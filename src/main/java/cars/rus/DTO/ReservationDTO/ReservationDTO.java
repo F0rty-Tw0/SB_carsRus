@@ -1,4 +1,4 @@
-package cars.rus.DTO;
+package cars.rus.DTO.ReservationDTO;
 
 import java.time.LocalDate;
 import java.util.List;

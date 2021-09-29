@@ -1,4 +1,4 @@
-package cars.rus.Service;
+package cars.rus.Service.CarService;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Utils.Converters.CarDTOconverter;

@@ -1,4 +1,4 @@
-package cars.rus.Controller;
+package cars.rus.Controller.ReservationsController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
-import cars.rus.DTO.ReservationDTO;
-import cars.rus.DTO.ReservationInput;
-import cars.rus.Service.ReservationService;
+import cars.rus.DTO.ReservationDTO.ReservationDTO;
+import cars.rus.DTO.ReservationDTO.ReservationInput;
+import cars.rus.Service.ReservationService.ReservationService;
 import cars.rus.Utils.CheckSimple;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/reservations")
-public class ReservationController {
+public class ReservationsController {
   @Autowired
   ReservationService reservationService;
 

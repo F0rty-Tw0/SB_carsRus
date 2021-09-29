@@ -23,8 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;

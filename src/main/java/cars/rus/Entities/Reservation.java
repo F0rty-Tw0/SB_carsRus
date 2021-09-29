@@ -7,12 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity(name = "reservations")
-@Table(name = "reservations")
 public class Reservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,57 +33,9 @@ public class Reservation {
   @ManyToOne()
   private Car car;
 
-  public Reservation() {
-  }
-
-  public Reservation(LocalDate rentalDate) {
-    this.rentalDate = rentalDate;
-  }
-
   public Reservation(LocalDate rentalDate, Member member, Car car) {
     this.rentalDate = rentalDate;
     this.member = member;
     this.car = car;
   }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LocalDate getReservationDate() {
-    return reservationDate;
-  }
-
-  public void setReservationDate(LocalDate reservationDate) {
-    this.reservationDate = reservationDate;
-  }
-
-  public LocalDate getRentalDate() {
-    return rentalDate;
-  }
-
-  public void setRentalDate(LocalDate rentalDate) {
-    this.rentalDate = rentalDate;
-  }
-
-  public Member getMember() {
-    return member;
-  }
-
-  public void setMember(Member member) {
-    this.member = member;
-  }
-
-  public Car getCar() {
-    return car;
-  }
-
-  public void setCar(Car car) {
-    this.car = car;
-  }
-
 }

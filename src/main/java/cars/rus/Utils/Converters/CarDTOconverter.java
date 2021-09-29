@@ -3,8 +3,8 @@ package cars.rus.Utils.Converters;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Entities.Car;
 
 public class CarDTOconverter {

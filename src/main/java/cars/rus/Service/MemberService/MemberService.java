@@ -1,9 +1,9 @@
-package cars.rus.Service;
+package cars.rus.Service.MemberService;
 
 import java.util.List;
 
-import cars.rus.DTO.MemberDTO;
-import cars.rus.DTO.MemberInput;
+import cars.rus.DTO.MemberDTO.MemberDTO;
+import cars.rus.DTO.MemberDTO.MemberInput;
 
 public interface MemberService {
   public List<MemberDTO> findAllMembers(boolean simple);

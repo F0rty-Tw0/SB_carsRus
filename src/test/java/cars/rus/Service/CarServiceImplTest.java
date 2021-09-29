@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
+import cars.rus.Service.CarService.CarServiceImpl;
 
 @DataJpaTest
 public class CarServiceImplTest {

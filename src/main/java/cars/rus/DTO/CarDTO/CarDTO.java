@@ -1,4 +1,4 @@
-package cars.rus.DTO;
+package cars.rus.DTO.CarDTO;
 
 import java.util.Collection;
 

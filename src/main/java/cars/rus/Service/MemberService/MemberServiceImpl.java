@@ -1,12 +1,12 @@
-package cars.rus.Service;
+package cars.rus.Service.MemberService;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import cars.rus.DTO.MemberDTO;
-import cars.rus.DTO.MemberInput;
+import cars.rus.DTO.MemberDTO.MemberDTO;
+import cars.rus.DTO.MemberDTO.MemberInput;
 import cars.rus.Entities.Member;
 import cars.rus.Repositories.MemberRepository;
 

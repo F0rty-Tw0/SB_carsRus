@@ -1,4 +1,4 @@
-package cars.rus.Controller;
+package cars.rus.Controller.CarsController;
 
 import org.springframework.http.HttpStatus;
 
@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.SimpleCarDTO;
-import cars.rus.Service.CarService;
+
+import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
+import cars.rus.Service.CarService.CarService;
 import cars.rus.Utils.CheckSimple;
 import io.swagger.annotations.ApiOperation;
 

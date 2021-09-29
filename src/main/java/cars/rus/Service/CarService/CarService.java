@@ -1,9 +1,9 @@
-package cars.rus.Service;
+package cars.rus.Service.CarService;
 
 import java.util.List;
 
-import cars.rus.DTO.CarDTO;
-import cars.rus.DTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.SimpleCarDTO;
 
 public interface CarService {
   public List<CarDTO> findCarsByBrand(String brand, boolean simple);

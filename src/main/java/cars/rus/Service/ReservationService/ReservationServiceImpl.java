@@ -1,4 +1,4 @@
-package cars.rus.Service;
+package cars.rus.Service.ReservationService;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
-import cars.rus.DTO.ReservationDTO;
-import cars.rus.DTO.ReservationInput;
+import cars.rus.DTO.ReservationDTO.ReservationDTO;
+import cars.rus.DTO.ReservationDTO.ReservationInput;
 import cars.rus.Entities.Reservation;
 import cars.rus.Repositories.ReservationRepository;
 
