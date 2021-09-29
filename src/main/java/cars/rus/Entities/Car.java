@@ -2,7 +2,7 @@ package cars.rus.Entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +47,7 @@ public class Car {
 
   @JsonIgnore
   @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Reservation> allReservations = new ArrayList<>();
+  private Collection<Reservation> allReservations = new ArrayList<>();
 
   public Car(String brand, String model, int pricePerDay) {
     this.brand = brand;

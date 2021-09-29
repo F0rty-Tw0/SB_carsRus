@@ -23,8 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import cars.rus.Configuration.JpaDataMock;
+import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.DTO.CarDTO.CarDTO;
-import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
@@ -60,9 +60,9 @@ public class CarsControllerTest {
 
   @Test
   void testAddCar() {
-    SimpleCarDTO simpleCarDTO = new SimpleCarDTO("Ferrari", "488 Pista", 200);
-    ResponseEntity<CarDTO> postResponse = remoteService.query(port, simpleCarDTO, HttpMethod.POST);
-    CarDTO car = mapper.convertValue(postResponse.getBody(), new TypeReference<CarDTO>() {
+    CarDTO simpleCarDTO = new CarDTO("Ferrari", "488 Pista", 200);
+    ResponseEntity<ExtendedCarDTO> postResponse = remoteService.query(port, simpleCarDTO, HttpMethod.POST);
+    ExtendedCarDTO car = mapper.convertValue(postResponse.getBody(), new TypeReference<ExtendedCarDTO>() {
     });
     assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
     assertEquals("Ferrari", car.getBrand());
@@ -71,21 +71,21 @@ public class CarsControllerTest {
   @Test
   void testFindCarById() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    ResponseEntity<CarDTO> response = remoteService.query(port, null, HttpMethod.GET, ("/" + lastCarId));
-    CarDTO car = mapper.convertValue(response.getBody(), new TypeReference<CarDTO>() {
+    ResponseEntity<ExtendedCarDTO> response = remoteService.query(port, null, HttpMethod.GET, ("/" + lastCarId));
+    ExtendedCarDTO car = mapper.convertValue(response.getBody(), new TypeReference<ExtendedCarDTO>() {
     });
     assertEquals("Porsche", car.getBrand());
   }
 
   @Test
   void testGetCarsByBrand() {
-    ResponseEntity<List<CarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota");
+    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota");
     assertEquals(2, response.getBody().size());
   }
 
   @Test
   void testFindCarsByBrandAndModel() {
-    ResponseEntity<List<CarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota",
+    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota",
         "/model/Yaris");
     System.out.println(response.getBody());
     assertEquals(1, response.getBody().size());
@@ -93,13 +93,13 @@ public class CarsControllerTest {
 
   @Test
   void testFindCarsByPricePerDayLessThan() {
-    ResponseEntity<List<CarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/price/50");
+    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/price/50");
     assertEquals(2, response.getBody().size());
   }
 
   @Test
   void testGetCars() {
-    ResponseEntity<List<CarDTO>> response = remoteService.query(port, null, HttpMethod.GET);
+    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET);
     assertEquals(5, response.getBody().size());
   }
 

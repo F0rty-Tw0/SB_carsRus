@@ -23,12 +23,12 @@ public class ReservationsController {
   @Autowired
   ReservationService reservationService;
 
-  CheckExtended checkSimple = new CheckExtended();
+  CheckExtended checkExtended = new CheckExtended();
 
   @ApiOperation("Returns all found Reservations ('type=extended' - simplifies the returned data)")
   @GetMapping
   public Iterable<ReservationDTO> getReservations(@RequestParam(required = false) String type) {
-    return reservationService.findAllReservations(checkSimple.isSimple(type));
+    return reservationService.findAllReservations(checkExtended.isExtended(type));
   }
 
   @ApiOperation(value = "Adds a Reservation", response = Procedure.class)

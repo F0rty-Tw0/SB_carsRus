@@ -2,6 +2,8 @@ package cars.rus.Controller.CarsController;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.DTO.CarDTO.CarDTO;
-import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Service.CarService.CarService;
 import cars.rus.Utils.CheckExtended;
 import io.swagger.annotations.ApiOperation;
@@ -27,53 +29,53 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/cars")
 public class CarsController {
   @Autowired
-  CarService carService;
+  private CarService carService;
 
-  CheckExtended checkSimple = new CheckExtended();
+  private CheckExtended checkExtended = new CheckExtended();
 
-  @ApiOperation("Returns all found Cars ('type=extended' - simplifies the returned data)")
+  @ApiOperation("Returns all found Cars ('type=extended' - extends the returned data)")
   @GetMapping
-  public Iterable<CarDTO> getCars(@RequestParam(required = false) String type) {
-    return carService.findAllCars(checkSimple.isSimple(type));
+  public Collection<ExtendedCarDTO> getAllCars(@RequestParam(required = false) String type) {
+    return carService.findAllCars(checkExtended.isExtended(type));
   }
 
-  @ApiOperation("Returns the found Cars by Brand ('type=extended' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Brand ('type=extended' - extends the returned data)")
   @GetMapping("/brand/{brand}")
-  public Iterable<CarDTO> getCarsByBrand(@RequestParam(required = false) String type, @PathVariable String brand) {
-    return carService.findCarsByBrand(brand, checkSimple.isSimple(type));
+  public Collection<ExtendedCarDTO> getCarsByBrand(@RequestParam(required = false) String type, @PathVariable String brand) {
+    return carService.findCarsByBrand(brand, checkExtended.isExtended(type));
   }
 
-  @ApiOperation("Returns the found Cars by Brand and Model ('type=extended' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Brand and Model ('type=extended' - extends the returned data)")
   @GetMapping("/brand/{brand}/model/{model}")
-  public Iterable<CarDTO> findCarsByBrandAndModel(@RequestParam(required = false) String type,
+  public Collection<ExtendedCarDTO> findCarsByBrandAndModel(@RequestParam(required = false) String type,
       @PathVariable String brand, @PathVariable String model) {
-    return carService.findCarsByBrandAndModel(brand, model, checkSimple.isSimple(type));
+    return carService.findCarsByBrandAndModel(brand, model, checkExtended.isExtended(type));
   }
 
-  @ApiOperation("Returns the found Cars by Price which is less than input ('type=extended' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Price which is less than input ('type=extended' - extends the returned data)")
   @GetMapping("/price/{price}")
-  public Iterable<CarDTO> findCarsByPricePerDayLessThan(@RequestParam(required = false) String type,
+  public Collection<ExtendedCarDTO> findCarsByPricePerDayLessThan(@RequestParam(required = false) String type,
       @PathVariable int price) {
-    return carService.findCarsByPricePerDayLessThan(price, checkSimple.isSimple(type));
+    return carService.findCarsByPricePerDayLessThan(price, checkExtended.isExtended(type));
   }
 
-  @ApiOperation("Returns the found Car by id ('type=extended' - simplifies the returned data)")
+  @ApiOperation("Returns the found Car by id ('type=extended' - extends the returned data)")
   @GetMapping("/{id}")
-  public CarDTO findCarById(@RequestParam(required = false) String type, @PathVariable Long id) {
-    return carService.findCarById(id, checkSimple.isSimple(type));
+  public ExtendedCarDTO findCarById(@RequestParam(required = false) String type, @PathVariable Long id) {
+    return carService.findCarById(id, checkExtended.isExtended(type));
   }
 
   @ApiOperation("Updates a Car by id or Creates a Car if the id is not found")
   @PutMapping("/{id}")
-  public SimpleCarDTO updateOrAddCar(@PathVariable Long id, @RequestBody SimpleCarDTO simpleCarDTO) {
-    return carService.updateOrAddCar(simpleCarDTO, id);
+  public CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody CarDTO carDTO) {
+    return carService.updateOrAddCar(carDTO, id);
   }
 
   @ApiOperation(value = "Adds a Car", response = Procedure.class)
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
-  public SimpleCarDTO addCar(@RequestBody SimpleCarDTO simpleCarDTO) {
-    return carService.addCar(simpleCarDTO);
+  public CarDTO addCar(@RequestBody CarDTO carDTO) {
+    return carService.addCar(carDTO);
   }
 
   @Transactional

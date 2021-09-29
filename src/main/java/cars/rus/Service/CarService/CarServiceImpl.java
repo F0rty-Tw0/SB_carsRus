@@ -1,14 +1,14 @@
 package cars.rus.Service.CarService;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.DTO.CarDTO.CarDTO;
-import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Utils.Converters.CarDTOconverter;
@@ -23,57 +23,57 @@ public class CarServiceImpl implements CarService {
     this.carRepository = carRepository;
   }
 
-  public List<CarDTO> findCarsByBrand(String brand, boolean extended) {
-    List<Car> matchedCars = carRepository.findCarsByBrand(brand);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+  public Collection<ExtendedCarDTO> findCarsByBrand(String brand, boolean extended) {
+    Collection<Car> matchedCars = carRepository.findCarsByBrand(brand);
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
             .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean extended) {
-    List<Car> matchedCars = carRepository.findCarsByBrandAndModel(brand, model);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+  public Collection<ExtendedCarDTO> findCarsByBrandAndModel(String brand, String model, boolean extended) {
+    Collection<Car> matchedCars = carRepository.findCarsByBrandAndModel(brand, model);
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
             .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean extended) {
-    List<Car> matchedCars = carRepository.findCarsByPricePerDayLessThan(givenPrice);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+  public Collection<ExtendedCarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean extended) {
+    Collection<Car> matchedCars = carRepository.findCarsByPricePerDayLessThan(givenPrice);
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
             .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findAllCars(boolean extended) {
-    List<Car> allCars = carRepository.findAll();
-    return extended ? allCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
-        : allCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+  public Collection<ExtendedCarDTO> findAllCars(boolean extended) {
+    Collection<Car> allCars = carRepository.findAll();
+    return extended ? allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+        : allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
             .collect(Collectors.toList());
   }
 
-  public SimpleCarDTO addCar(SimpleCarDTO simpleCarDTO) {
-    Car newCar = carRepository.save(carDTOconverter.convertToEntity(simpleCarDTO));
-    return carDTOconverter.convertToSimpleCarDto(newCar);
+  public CarDTO addCar(CarDTO carDTO) {
+    Car newCar = carRepository.save(carDTOconverter.convertToEntity(carDTO));
+    return carDTOconverter.convertToCarDto(newCar);
   }
 
-  public SimpleCarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id) {
+  public CarDTO updateOrAddCar(CarDTO carDTO, Long id) {
     Optional<Car> foundCar = carRepository.findById(id);
     Car newCar;
     if (!foundCar.isPresent()) {
-      newCar = carRepository.save(carDTOconverter.convertToEntity(simpleCarDTO));
+      newCar = carRepository.save(carDTOconverter.convertToEntity(carDTO));
     } else {
-      foundCar.get().setBrand(simpleCarDTO.getBrand());
-      foundCar.get().setModel(simpleCarDTO.getModel());
-      foundCar.get().setPricePerDay(simpleCarDTO.getPricePerDay());
+      foundCar.get().setBrand(carDTO.getBrand());
+      foundCar.get().setModel(carDTO.getModel());
+      foundCar.get().setPricePerDay(carDTO.getPricePerDay());
       newCar = carRepository.save(foundCar.get());
     }
-    return carDTOconverter.convertToSimpleCarDto(newCar);
+    return carDTOconverter.convertToCarDto(newCar);
   }
 
-  public CarDTO findCarById(Long id, boolean extended) {
+  public ExtendedCarDTO findCarById(Long id, boolean extended) {
     Optional<Car> foundCar = carRepository.findById(id);
-    return extended ? carDTOconverter.convertToCarDto(foundCar.get())
-        : carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(foundCar.get()));
+    return extended ? carDTOconverter.convertToExtendedCarDto(foundCar.get())
+        : carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToExtendedCarDto(foundCar.get()));
   }
 
   public void deleteCarById(Long id) {

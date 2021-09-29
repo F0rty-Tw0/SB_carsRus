@@ -36,9 +36,8 @@ public class MemberRepositoryTest {
 
   @Test
   void testGetMemberByEmail() {
-    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
-    Long id = memberRepository.getMemberByEmail("david@gmail.com").getId();
-    assertEquals(lastMemberId, id);
+    Optional<Member> foundMember = memberRepository.getMemberByEmail("david@gmail.com");
+    assertTrue(foundMember.isPresent());
   }
 
   @Test

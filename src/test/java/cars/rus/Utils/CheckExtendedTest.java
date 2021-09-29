@@ -10,8 +10,7 @@ public class CheckExtendedTest {
 
   @Test
   public void testIsExtended() {
-
-    assertTrue(checkExtended.isSimple("extended"));
-    assertFalse(checkExtended.isSimple(""));
+    assertTrue(checkExtended.isExtended("extended"));
+    assertFalse(checkExtended.isExtended(""));
   }
 }

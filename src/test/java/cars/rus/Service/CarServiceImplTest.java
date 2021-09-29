@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.CarDTO.SimpleCarDTO;
+import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.Entities.Car;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
@@ -20,7 +20,7 @@ import cars.rus.Service.CarService.CarServiceImpl;
 
 @DataJpaTest
 public class CarServiceImplTest {
-  private SimpleCarDTO simpleCarDTO = new SimpleCarDTO("Jeep", "Raw 4", 50);
+  private CarDTO carDTO = new CarDTO("Jeep", "Raw 4", 50);
 
   @Autowired
   private ReservationRepository reservationRepository;
@@ -43,14 +43,14 @@ public class CarServiceImplTest {
 
   @Test
   public void testAddCar() {
-    String newCarBrand = carServiceImpl.addCar(simpleCarDTO).getBrand();
-    assertEquals(newCarBrand, simpleCarDTO.getBrand());
+    String newCarBrand = carServiceImpl.addCar(carDTO).getBrand();
+    assertEquals(newCarBrand, carDTO.getBrand());
   }
 
   @Test
   public void testUpdateOrAddCar() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    String updatedBrand = carServiceImpl.updateOrAddCar(simpleCarDTO, lastCarId).getBrand();
+    String updatedBrand = carServiceImpl.updateOrAddCar(carDTO, lastCarId).getBrand();
     assertEquals("Jeep", updatedBrand);
   }
 
