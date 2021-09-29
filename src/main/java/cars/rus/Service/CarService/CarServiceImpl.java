@@ -23,47 +23,43 @@ public class CarServiceImpl implements CarService {
     this.carRepository = carRepository;
   }
 
-  public List<CarDTO> findCarsByBrand(String brand, boolean simple) {
+  public List<CarDTO> findCarsByBrand(String brand, boolean extended) {
     List<Car> matchedCars = carRepository.findCarsByBrand(brand);
-    return simple
-        ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
-            .collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList());
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+            .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean simple) {
+  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean extended) {
     List<Car> matchedCars = carRepository.findCarsByBrandAndModel(brand, model);
-    return simple
-        ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
-            .collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList());
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+            .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean simple) {
+  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean extended) {
     List<Car> matchedCars = carRepository.findCarsByPricePerDayLessThan(givenPrice);
-    return simple
-        ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
-            .collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList());
+    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
+        : matchedCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+            .collect(Collectors.toList());
   }
 
-  public List<CarDTO> findAllCars(boolean simple) {
+  public List<CarDTO> findAllCars(boolean extended) {
     List<Car> allCars = carRepository.findAll();
-    return simple
-        ? allCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
-            .collect(Collectors.toList())
-        : allCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList());
+    return extended ? allCars.stream().map(car -> carDTOconverter.convertToCarDto(car)).collect(Collectors.toList())
+        : allCars.stream().map(car -> carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(car)))
+            .collect(Collectors.toList());
   }
 
-  public CarDTO addCar(SimpleCarDTO simpleCarDTO) {
+  public SimpleCarDTO addCar(SimpleCarDTO simpleCarDTO) {
     Car newCar = carRepository.save(carDTOconverter.convertToEntity(simpleCarDTO));
-    return carDTOconverter.convertToCarDto(newCar);
+    return carDTOconverter.convertToSimpleCarDto(newCar);
   }
 
-  public CarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id) {
+  public SimpleCarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id) {
     Optional<Car> foundCar = carRepository.findById(id);
     Car newCar;
-    if (foundCar.isPresent()) {
+    if (!foundCar.isPresent()) {
       newCar = carRepository.save(carDTOconverter.convertToEntity(simpleCarDTO));
     } else {
       foundCar.get().setBrand(simpleCarDTO.getBrand());
@@ -71,13 +67,13 @@ public class CarServiceImpl implements CarService {
       foundCar.get().setPricePerDay(simpleCarDTO.getPricePerDay());
       newCar = carRepository.save(foundCar.get());
     }
-    return carDTOconverter.convertToCarDto(newCar);
+    return carDTOconverter.convertToSimpleCarDto(newCar);
   }
 
-  public CarDTO findCarById(Long id, boolean simple) {
+  public CarDTO findCarById(Long id, boolean extended) {
     Optional<Car> foundCar = carRepository.findById(id);
-    return simple ? carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(foundCar.get()))
-        : carDTOconverter.convertToCarDto(foundCar.get());
+    return extended ? carDTOconverter.convertToCarDto(foundCar.get())
+        : carDTOconverter.convertToCarDto(carDTOconverter.convertToSimpleCarDto(foundCar.get()));
   }
 
   public void deleteCarById(Long id) {

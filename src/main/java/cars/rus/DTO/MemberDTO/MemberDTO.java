@@ -178,9 +178,9 @@ public class MemberDTO {
     this.allReservations = allReservations;
   }
 
-  public static List<MemberDTO> getMemberDTOs(Iterable<Member> allMembers, boolean simple) {
+  public static List<MemberDTO> getMemberDTOs(Iterable<Member> allMembers, boolean extended) {
     List<MemberDTO> DTO = StreamSupport.stream(allMembers.spliterator(), false)
-        .map(member -> simple
+        .map(member -> extended
             ? new MemberDTO(member.getFirstName(), member.getLastName(), member.getStreet(), member.getCity(),
                 member.getZip(), member.getEmail(), member.getAllReservations())
             : new MemberDTO(member))
@@ -188,8 +188,8 @@ public class MemberDTO {
     return DTO;
   }
 
-  public static MemberDTO getMemberDTO(Member member, boolean simple) {
-    return simple
+  public static MemberDTO getMemberDTO(Member member, boolean extended) {
+    return extended
         ? new MemberDTO(member.getFirstName(), member.getLastName(), member.getStreet(), member.getCity(),
             member.getZip(), member.getEmail(), member.getAllReservations())
         : new MemberDTO(member);

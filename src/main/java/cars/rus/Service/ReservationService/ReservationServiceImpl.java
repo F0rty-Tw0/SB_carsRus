@@ -20,9 +20,9 @@ public class ReservationServiceImpl implements ReservationService {
     this.modelMapper = new ModelMapper();
   }
 
-  public List<ReservationDTO> findAllReservations(boolean simple) {
+  public List<ReservationDTO> findAllReservations(boolean extended) {
     Iterable<Reservation> allReservations = reservationRepository.findAll();
-    return ReservationDTO.getReservationDTOs(allReservations, simple);
+    return ReservationDTO.getReservationDTOs(allReservations, extended);
   }
 
   @Override

@@ -6,19 +6,19 @@ import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.DTO.CarDTO.SimpleCarDTO;
 
 public interface CarService {
-  public List<CarDTO> findCarsByBrand(String brand, boolean simple);
+  public List<CarDTO> findCarsByBrand(String brand, boolean extended);
 
-  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean simple);
+  public List<CarDTO> findCarsByBrandAndModel(String brand, String model, boolean extended);
 
-  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean simple);
+  public List<CarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean extended);
 
-  public List<CarDTO> findAllCars(boolean simple);
+  public List<CarDTO> findAllCars(boolean extended);
 
-  public CarDTO findCarById(Long id, boolean simple);
+  public CarDTO findCarById(Long id, boolean extended);
 
   public void deleteCarById(Long id);
 
-  public CarDTO addCar(SimpleCarDTO simpleCarDTO);
+  public SimpleCarDTO addCar(SimpleCarDTO simpleCarDTO);
 
-  public CarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id);
+  public SimpleCarDTO updateOrAddCar(SimpleCarDTO simpleCarDTO, Long id);
 }

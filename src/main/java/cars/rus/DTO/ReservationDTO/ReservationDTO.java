@@ -59,9 +59,9 @@ public class ReservationDTO {
     this.rentalDate = rentalDate;
   }
 
-  public static List<ReservationDTO> getReservationDTOs(Iterable<Reservation> allReservationDTOs, boolean simple) {
+  public static List<ReservationDTO> getReservationDTOs(Iterable<Reservation> allReservationDTOs, boolean extended) {
 
-    // TODO: implement simple validation
+    // TODO: implement extended validation
     List<ReservationDTO> DTO = StreamSupport.stream(allReservationDTOs.spliterator(), false)
         .map(reservation -> new ReservationDTO(reservation)).collect(Collectors.toList());
     return DTO;

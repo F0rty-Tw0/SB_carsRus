@@ -59,9 +59,4 @@ public class Car {
     allReservations.add(reservation);
     reservation.setCar(this);
   }
-
-  public void removeReservation(Reservation reservation) {
-    allReservations.remove(reservation);
-    reservation.setCar(null);
-  }
 }

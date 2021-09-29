@@ -6,13 +6,13 @@ import cars.rus.DTO.MemberDTO.MemberDTO;
 import cars.rus.DTO.MemberDTO.MemberInput;
 
 public interface MemberService {
-  public List<MemberDTO> findAllMembers(boolean simple);
+  public List<MemberDTO> findAllMembers(boolean extended);
 
-  public MemberDTO getMemberByEmail(String email, boolean simple);
+  public MemberDTO getMemberByEmail(String email, boolean extended);
 
-  public List<MemberDTO> getMembersByApproved(boolean isApproved, boolean simple);
+  public List<MemberDTO> getMembersByApproved(boolean isApproved, boolean extended);
 
-  public MemberDTO findMemberById(Long id, boolean simple);
+  public MemberDTO findMemberById(Long id, boolean extended);
 
   public void deleteMemberById(Long id);
 

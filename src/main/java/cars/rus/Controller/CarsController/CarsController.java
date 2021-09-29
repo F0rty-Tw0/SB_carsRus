@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.DTO.CarDTO.SimpleCarDTO;
 import cars.rus.Service.CarService.CarService;
-import cars.rus.Utils.CheckSimple;
+import cars.rus.Utils.CheckExtended;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -29,35 +29,35 @@ public class CarsController {
   @Autowired
   CarService carService;
 
-  CheckSimple checkSimple = new CheckSimple();
+  CheckExtended checkSimple = new CheckExtended();
 
-  @ApiOperation("Returns all found Cars ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns all found Cars ('type=extended' - simplifies the returned data)")
   @GetMapping
   public Iterable<CarDTO> getCars(@RequestParam(required = false) String type) {
     return carService.findAllCars(checkSimple.isSimple(type));
   }
 
-  @ApiOperation("Returns the found Cars by Brand ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Brand ('type=extended' - simplifies the returned data)")
   @GetMapping("/brand/{brand}")
   public Iterable<CarDTO> getCarsByBrand(@RequestParam(required = false) String type, @PathVariable String brand) {
     return carService.findCarsByBrand(brand, checkSimple.isSimple(type));
   }
 
-  @ApiOperation("Returns the found Cars by Brand and Model ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Brand and Model ('type=extended' - simplifies the returned data)")
   @GetMapping("/brand/{brand}/model/{model}")
   public Iterable<CarDTO> findCarsByBrandAndModel(@RequestParam(required = false) String type,
       @PathVariable String brand, @PathVariable String model) {
     return carService.findCarsByBrandAndModel(brand, model, checkSimple.isSimple(type));
   }
 
-  @ApiOperation("Returns the found Cars by Price which is less than input ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns the found Cars by Price which is less than input ('type=extended' - simplifies the returned data)")
   @GetMapping("/price/{price}")
   public Iterable<CarDTO> findCarsByPricePerDayLessThan(@RequestParam(required = false) String type,
       @PathVariable int price) {
     return carService.findCarsByPricePerDayLessThan(price, checkSimple.isSimple(type));
   }
 
-  @ApiOperation("Returns the found Car by id ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns the found Car by id ('type=extended' - simplifies the returned data)")
   @GetMapping("/{id}")
   public CarDTO findCarById(@RequestParam(required = false) String type, @PathVariable Long id) {
     return carService.findCarById(id, checkSimple.isSimple(type));
@@ -65,14 +65,14 @@ public class CarsController {
 
   @ApiOperation("Updates a Car by id or Creates a Car if the id is not found")
   @PutMapping("/{id}")
-  public CarDTO updateOrAddCar(@PathVariable Long id, @RequestBody SimpleCarDTO simpleCarDTO) {
+  public SimpleCarDTO updateOrAddCar(@PathVariable Long id, @RequestBody SimpleCarDTO simpleCarDTO) {
     return carService.updateOrAddCar(simpleCarDTO, id);
   }
 
   @ApiOperation(value = "Adds a Car", response = Procedure.class)
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
-  public CarDTO addCar(@RequestBody SimpleCarDTO simpleCarDTO) {
+  public SimpleCarDTO addCar(@RequestBody SimpleCarDTO simpleCarDTO) {
     return carService.addCar(simpleCarDTO);
   }
 

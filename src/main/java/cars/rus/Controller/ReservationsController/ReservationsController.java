@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
 import cars.rus.DTO.ReservationDTO.ReservationInput;
 import cars.rus.Service.ReservationService.ReservationService;
-import cars.rus.Utils.CheckSimple;
+import cars.rus.Utils.CheckExtended;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -23,9 +23,9 @@ public class ReservationsController {
   @Autowired
   ReservationService reservationService;
 
-  CheckSimple checkSimple = new CheckSimple();
+  CheckExtended checkSimple = new CheckExtended();
 
-  @ApiOperation("Returns all found Reservations ('type=simple' - simplifies the returned data)")
+  @ApiOperation("Returns all found Reservations ('type=extended' - simplifies the returned data)")
   @GetMapping
   public Iterable<ReservationDTO> getReservations(@RequestParam(required = false) String type) {
     return reservationService.findAllReservations(checkSimple.isSimple(type));

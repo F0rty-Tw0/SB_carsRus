@@ -18,19 +18,19 @@ public class MemberServiceImpl implements MemberService {
     this.memberRepository = memberRepository;
   }
 
-  public List<MemberDTO> findAllMembers(boolean simple) {
+  public List<MemberDTO> findAllMembers(boolean extended) {
     Iterable<Member> members = memberRepository.findAll();
-    return MemberDTO.getMemberDTOs(members, simple);
+    return MemberDTO.getMemberDTOs(members, extended);
   };
 
-  public MemberDTO getMemberByEmail(String email, boolean simple) {
+  public MemberDTO getMemberByEmail(String email, boolean extended) {
     Member member = memberRepository.getMemberByEmail(email);
-    return MemberDTO.getMemberDTO(member, simple);
+    return MemberDTO.getMemberDTO(member, extended);
   }
 
-  public List<MemberDTO> getMembersByApproved(boolean isApproved, boolean simple) {
+  public List<MemberDTO> getMembersByApproved(boolean isApproved, boolean extended) {
     Iterable<Member> members = memberRepository.getMembersByApproved(isApproved);
-    return MemberDTO.getMemberDTOs(members, simple);
+    return MemberDTO.getMemberDTOs(members, extended);
   }
 
   public MemberDTO updateOrAddMember(MemberInput memberInput, Long id) {
@@ -51,9 +51,9 @@ public class MemberServiceImpl implements MemberService {
     return new MemberDTO(newMember);
   }
 
-  public MemberDTO findMemberById(Long id, boolean simple) {
+  public MemberDTO findMemberById(Long id, boolean extended) {
     Optional<Member> foundMember = memberRepository.findById(id);
-    return MemberDTO.getMemberDTO(foundMember.get(), simple);
+    return MemberDTO.getMemberDTO(foundMember.get(), extended);
   }
 
   public void deleteMemberById(Long id) {
