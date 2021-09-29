@@ -1,12 +1,12 @@
 package cars.rus.Service.ReservationService;
 
-import java.util.List;
+import java.util.Collection;
 
+import cars.rus.DTO.ReservationDTO.ExtendedReservationDTO;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
-import cars.rus.DTO.ReservationDTO.ReservationInput;
 
 public interface ReservationService {
-  public List<ReservationDTO> findAllReservations(boolean extended);
+  public Collection<ExtendedReservationDTO> findAllReservations(boolean extended);
 
-  public ReservationDTO addReservation(ReservationInput reservationInput);
+  public ReservationDTO addReservation(ReservationDTO reservationDTO);
 }

@@ -1,34 +1,42 @@
 package cars.rus.Service.ReservationService;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cars.rus.DTO.ReservationDTO.ExtendedReservationDTO;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
-import cars.rus.DTO.ReservationDTO.ReservationInput;
 import cars.rus.Entities.Reservation;
 import cars.rus.Repositories.ReservationRepository;
+import cars.rus.Utils.Converters.ReservationDTOconverter;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
   private ReservationRepository reservationRepository;
-  private ModelMapper modelMapper;
+  private ReservationDTOconverter reservationDTOconverter = new ReservationDTOconverter();
 
+  @Autowired
   public ReservationServiceImpl(ReservationRepository reservationRepository) {
     this.reservationRepository = reservationRepository;
-    this.modelMapper = new ModelMapper();
   }
 
-  public List<ReservationDTO> findAllReservations(boolean extended) {
-    Iterable<Reservation> allReservations = reservationRepository.findAll();
-    return ReservationDTO.getReservationDTOs(allReservations, extended);
+  public Collection<ExtendedReservationDTO> findAllReservations(boolean extended) {
+    Collection<Reservation> allReservations = reservationRepository.findAll();
+    return extended
+        ? allReservations.stream()
+            .map(reservation -> reservationDTOconverter.convertToExtendedReservationDto(reservation))
+            .collect(Collectors.toList())
+        : allReservations.stream()
+            .map(reservation -> reservationDTOconverter
+                .convertToExtendedReservationDto(reservationDTOconverter.convertToReservationDto(reservation)))
+            .collect(Collectors.toList());
   }
 
-  @Override
-  public ReservationDTO addReservation(ReservationInput reservationInput) {
-    Reservation newReservation = reservationRepository.save(modelMapper.map(reservationInput, Reservation.class));
-    return new ReservationDTO(newReservation);
-  }
+  public ReservationDTO addReservation(ReservationDTO reservationDTO) {
+    Reservation newReservation = reservationRepository.save(reservationDTOconverter.convertToEntity(reservationDTO));
+    return reservationDTOconverter.convertToReservationDto(newReservation);
 
+  }
 }

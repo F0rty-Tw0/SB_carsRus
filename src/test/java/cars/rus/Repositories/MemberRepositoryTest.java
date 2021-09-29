@@ -43,7 +43,7 @@ public class MemberRepositoryTest {
   @Test
   void testGetMembersByApproved() {
     int count = memberRepository.findMembersByApproved(true).size();
-    assertEquals(1, count);
+    assertEquals(2, count);
   }
 
   @Test
