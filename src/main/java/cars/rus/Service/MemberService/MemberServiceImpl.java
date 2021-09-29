@@ -21,6 +21,7 @@ public class MemberServiceImpl implements MemberService {
     this.memberRepository = memberRepository;
   }
 
+  @Override
   public Collection<ExtendedMemberDTO> findAllMembers(boolean extended) {
     Collection<Member> allMembers = memberRepository.findAll();
     return extended
@@ -31,12 +32,14 @@ public class MemberServiceImpl implements MemberService {
             .collect(Collectors.toList());
   };
 
+  @Override
   public ExtendedMemberDTO findMemberByEmail(String email, boolean extended) {
     Optional<Member> foundMember = memberRepository.findMemberByEmail(email);
     return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
         : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
   }
 
+  @Override
   public Collection<ExtendedMemberDTO> findMembersByApproved(boolean isApproved, boolean extended) {
     Collection<Member> foundMember = memberRepository.findMembersByApproved(isApproved);
     return extended
@@ -47,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
             .collect(Collectors.toList());
   }
 
+  @Override
   public MemberDTO updateOrAddMember(MemberDTO memberDTO, Long id) {
     Optional<Member> foundMember = memberRepository.findById(id);
     Member newMember;
@@ -64,12 +68,14 @@ public class MemberServiceImpl implements MemberService {
     return memberDTOconverter.convertToMemberDto(newMember);
   }
 
+  @Override
   public ExtendedMemberDTO findMemberById(Long id, boolean extended) {
     Optional<Member> foundMember = memberRepository.findById(id);
     return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
         : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
   }
 
+  @Override
   public void deleteMemberById(Long id) {
     Optional<Member> foundMember = memberRepository.findById(id);
     if (!foundMember.isPresent()) {
@@ -78,6 +84,7 @@ public class MemberServiceImpl implements MemberService {
     memberRepository.deleteMemberById(id);
   }
 
+  @Override
   public MemberDTO addMember(MemberDTO memberDTO) {
     Member newMember = memberRepository.save(memberDTOconverter.convertToEntity(memberDTO));
     return memberDTOconverter.convertToMemberDto(newMember);

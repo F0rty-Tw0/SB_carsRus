@@ -12,9 +12,7 @@ import cars.rus.Entities.Reservation;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-  public Optional<Reservation> findReservationByCarIdAndRentalDate(Long carId, LocalDate rentalDate);
-
-  public Optional<Reservation> findReservationByMemberIdAndRentalDate(Long memberId, LocalDate rentalDate);
+  public List<Reservation> findAll();
 
   public Collection<Reservation> findReservationsByCarId(Long carId);
 
@@ -22,9 +20,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
   public Collection<Reservation> findReservationsByRentalDate(LocalDate rentalDate);
 
+  public Optional<Reservation> findReservationByCarIdAndRentalDate(Long carId, LocalDate rentalDate);
+
+  public Optional<Reservation> findReservationByMemberIdAndRentalDate(Long memberId, LocalDate rentalDate);
+
   public void deleteReservationById(Long id);
 
   public Reservation findTopByOrderByIdDesc();
 
-  public List<Reservation> findAll();
 }
