@@ -87,7 +87,6 @@ public class CarsControllerTest {
   void testFindCarsByBrandAndModel() {
     ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota",
         "/model/Yaris");
-    System.out.println(response.getBody());
     assertEquals(1, response.getBody().size());
   }
 

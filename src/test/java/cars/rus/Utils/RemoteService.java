@@ -31,7 +31,6 @@ public class RemoteService {
       response = restTemplate.exchange(url, method, request, new ParameterizedTypeReference<RES>() {
       });
 
-      System.out.println(response);
       long stopMillis = System.currentTimeMillis() - startMillis;
       System.out.println(method + ":" + url + " took " + stopMillis + " ms");
     } catch (Exception e) {

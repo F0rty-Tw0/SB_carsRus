@@ -15,9 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
   public void deleteMemberById(Long id);
 
-  public Optional<Member> getMemberByEmail(String email);
+  public Optional<Member> findMemberByEmail(String email);
 
-  public Collection<Member> getMembersByApproved(boolean isApproved);
+  public Collection<Member> findMembersByApproved(boolean isApproved);
 
   public Member findTopByOrderByIdDesc();
 }

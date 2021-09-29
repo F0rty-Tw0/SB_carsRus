@@ -35,13 +35,14 @@ public class CarsController {
 
   @ApiOperation("Returns all found Cars ('type=extended' - extends the returned data)")
   @GetMapping
-  public Collection<ExtendedCarDTO> getAllCars(@RequestParam(required = false) String type) {
+  public Collection<ExtendedCarDTO> findAllCars(@RequestParam(required = false) String type) {
     return carService.findAllCars(checkExtended.isExtended(type));
   }
 
   @ApiOperation("Returns the found Cars by Brand ('type=extended' - extends the returned data)")
   @GetMapping("/brand/{brand}")
-  public Collection<ExtendedCarDTO> getCarsByBrand(@RequestParam(required = false) String type, @PathVariable String brand) {
+  public Collection<ExtendedCarDTO> findCarsByBrand(@RequestParam(required = false) String type,
+      @PathVariable String brand) {
     return carService.findCarsByBrand(brand, checkExtended.isExtended(type));
   }
 

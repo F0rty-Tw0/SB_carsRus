@@ -36,13 +36,13 @@ public class MemberRepositoryTest {
 
   @Test
   void testGetMemberByEmail() {
-    Optional<Member> foundMember = memberRepository.getMemberByEmail("david@gmail.com");
+    Optional<Member> foundMember = memberRepository.findMemberByEmail("david@gmail.com");
     assertTrue(foundMember.isPresent());
   }
 
   @Test
   void testGetMembersByApproved() {
-    int count = memberRepository.getMembersByApproved(true).size();
+    int count = memberRepository.findMembersByApproved(true).size();
     assertEquals(1, count);
   }
 

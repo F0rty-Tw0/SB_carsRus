@@ -1,7 +1,6 @@
 package cars.rus.Service.MemberService;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,14 +31,14 @@ public class MemberServiceImpl implements MemberService {
             .collect(Collectors.toList());
   };
 
-  public ExtendedMemberDTO getMemberByEmail(String email, boolean extended) {
-    Optional<Member> foundMember = memberRepository.getMemberByEmail(email);
-    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember)
-        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember));
+  public ExtendedMemberDTO findMemberByEmail(String email, boolean extended) {
+    Optional<Member> foundMember = memberRepository.findMemberByEmail(email);
+    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
+        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
   }
 
-  public Collection<ExtendedMemberDTO> getMembersByApproved(boolean isApproved, boolean extended) {
-    Collection<Member> foundMember = memberRepository.getMembersByApproved(isApproved);
+  public Collection<ExtendedMemberDTO> findMembersByApproved(boolean isApproved, boolean extended) {
+    Collection<Member> foundMember = memberRepository.findMembersByApproved(isApproved);
     return extended
         ? foundMember.stream().map(member -> memberDTOconverter.convertToExtendedMemberDto(member))
             .collect(Collectors.toList())
@@ -67,8 +66,6 @@ public class MemberServiceImpl implements MemberService {
 
   public ExtendedMemberDTO findMemberById(Long id, boolean extended) {
     Optional<Member> foundMember = memberRepository.findById(id);
-    System.out.println(memberDTOconverter
-        .convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get())).toString());
     return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
         : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
   }
