@@ -16,6 +16,6 @@ public class ExtendedReservationDTO {
   private Long id;
   private LocalDate reservationDate;
   private LocalDate rentalDate;
-  private Member member;
-  private Car car;
+  // private Member member;
+  // private Car car;
 }

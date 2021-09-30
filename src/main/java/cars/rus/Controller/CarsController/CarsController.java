@@ -2,6 +2,8 @@ package cars.rus.Controller.CarsController;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +65,7 @@ public class CarsController implements CarsControllerInterface {
   }
 
   @Override
+  @Transactional
   public void deleteCarById(@PathVariable Long id) {
     carService.deleteCarById(id);
   }
