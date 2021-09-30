@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import cars.rus.Entities.Car;
+import cars.rus.Entities.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +16,6 @@ public class ExtendedReservationDTO {
   private Long id;
   private LocalDate reservationDate;
   private LocalDate rentalDate;
+  private Member member;
+  private Car car;
 }
