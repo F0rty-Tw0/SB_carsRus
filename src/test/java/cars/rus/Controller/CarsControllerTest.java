@@ -23,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
@@ -43,6 +42,7 @@ public class CarsControllerTest {
   private CarRepository carRepository;
   @LocalServerPort
   private int port;
+  private final String path = "/api/cars";
 
   private RemoteService remoteService = new RemoteService();
 
@@ -60,59 +60,65 @@ public class CarsControllerTest {
 
   @Test
   void testAddCar() {
-    CarDTO simpleCarDTO = new CarDTO("Ferrari", "488 Pista", 200);
-    ResponseEntity<ExtendedCarDTO> postResponse = remoteService.query(port, simpleCarDTO, HttpMethod.POST);
-    ExtendedCarDTO car = mapper.convertValue(postResponse.getBody(), new TypeReference<ExtendedCarDTO>() {
+    CarDTO NewCarDTO = new CarDTO("Ferrari", "488 Pista", 200);
+    ResponseEntity<CarDTO> postResponse = remoteService.query(port, path, NewCarDTO, HttpMethod.POST);
+    CarDTO carDTO = mapper.convertValue(postResponse.getBody(), new TypeReference<CarDTO>() {
     });
     assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-    assertEquals("Ferrari", car.getBrand());
+    assertEquals("Ferrari", carDTO.getBrand());
   }
 
   @Test
   void testFindCarById() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    ResponseEntity<ExtendedCarDTO> response = remoteService.query(port, null, HttpMethod.GET, ("/" + lastCarId));
-    ExtendedCarDTO car = mapper.convertValue(response.getBody(), new TypeReference<ExtendedCarDTO>() {
+    ResponseEntity<CarDTO> response = remoteService.query(port, path, null, HttpMethod.GET, ("/" + lastCarId));
+    CarDTO carDTO = mapper.convertValue(response.getBody(), new TypeReference<CarDTO>() {
     });
-    assertEquals("Porsche", car.getBrand());
+    assertEquals("Porsche", carDTO.getBrand());
   }
 
   @Test
   void testGetCarsByBrand() {
-    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota");
+    ResponseEntity<List<CarDTO>> response = remoteService.query(port, path, null, HttpMethod.GET, "/brand/Toyota");
     assertEquals(2, response.getBody().size());
   }
 
   @Test
   void testFindCarsByBrandAndModel() {
-    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/brand/Toyota",
+    ResponseEntity<List<CarDTO>> response = remoteService.query(port, path, null, HttpMethod.GET, "/brand/Toyota",
         "/model/Yaris");
     assertEquals(1, response.getBody().size());
   }
 
   @Test
   void testFindCarsByPricePerDayLessThan() {
-    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET, "/price/50");
+    ResponseEntity<List<CarDTO>> response = remoteService.query(port, path, null, HttpMethod.GET, "/price/50");
     assertEquals(2, response.getBody().size());
   }
 
   @Test
   void testGetCars() {
-    ResponseEntity<List<ExtendedCarDTO>> response = remoteService.query(port, null, HttpMethod.GET);
+    ResponseEntity<List<CarDTO>> response = remoteService.query(port, path, null, HttpMethod.GET);
     assertEquals(5, response.getBody().size());
   }
 
   @Test
   void testUpdateOrAddCar() {
-
+    CarDTO NewCarDTO = new CarDTO("Ferrari", "488 Pista", 200);
+    ResponseEntity<CarDTO> postResponse = remoteService.query(port, path, NewCarDTO, HttpMethod.PUT, "/1");
+    CarDTO carDTO = mapper.convertValue(postResponse.getBody(), new TypeReference<CarDTO>() {
+    });
+    assertEquals(HttpStatus.OK, postResponse.getStatusCode());
+    assertEquals("Ferrari", carDTO.getBrand());
   }
 
   @Test
   void testDeleteCarById() {
     Long carId = carRepository.findAll().get(0).getId();
-    remoteService.query(port, null, HttpMethod.DELETE, ("/" + carId));
-    Long newCarId = carRepository.findAll().get(0).getId();
-    assertFalse(newCarId == carId);
+    int allCars = carRepository.findAll().size();
+    remoteService.query(port, path, null, HttpMethod.DELETE, ("/" + carId));
+    int allNewCars = carRepository.findAll().size();
+    assertFalse(allCars == allNewCars);
   }
 
 }

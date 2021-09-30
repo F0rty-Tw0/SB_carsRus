@@ -18,7 +18,7 @@ public interface CarService {
 
   public void deleteCarById(Long id);
 
-  public CarDTO addCar(CarDTO simpleCarDTO);
+  public CarDTO addCar(CarDTO carDTO);
 
-  public CarDTO updateOrAddCar(CarDTO simpleCarDTO, Long id);
+  public CarDTO updateOrAddCar(CarDTO carDTO, Long id);
 }

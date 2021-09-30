@@ -12,7 +12,6 @@ public class RemoteService {
 
   private TestRestTemplate restTemplate = new TestRestTemplate();
 
-  private final String BASE_PATH = "/api/cars";
   private final HttpHeaders headers = new HttpHeaders();
 
   private String makeUrl(int port, String path) {
@@ -20,10 +19,11 @@ public class RemoteService {
     return pathBuilded;
   }
 
-  public <REQ, RES> ResponseEntity<RES> query(int port, REQ req, HttpMethod method, String... params) {
+  public <REQ, RES> ResponseEntity<RES> query(int port, String path, REQ req, HttpMethod method,
+      String... params) {
     String param1 = params.length > 0 ? params[0] : "";
     String param2 = params.length > 1 ? params[1] : "";
-    String url = makeUrl(port, BASE_PATH + param1 + param2);
+    String url = makeUrl(port, path + param1 + param2);
     ResponseEntity<RES> response = null;
     try {
       long startMillis = System.currentTimeMillis();

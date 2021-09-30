@@ -52,7 +52,7 @@ public interface ReservationsControllerInterface {
   @ApiOperation(value = "Adds a Reservation", response = Procedure.class)
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
-  public ReservationDTO addReservations(@RequestBody ReservationDTO reservationDTO);
+  public ReservationDTO addReservation(@RequestBody ReservationDTO reservationDTO);
 
   @ApiOperation("Deletes the Reservation by id")
   @ResponseStatus(HttpStatus.NO_CONTENT)

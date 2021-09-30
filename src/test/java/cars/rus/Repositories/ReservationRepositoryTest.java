@@ -63,8 +63,8 @@ public class ReservationRepositoryTest {
   void TestFindReservationByMemberIdAndRentalDate() {
     Long memberId = memberRepository.findAll().get(1).getId();
     Long foundReservations = reservationRepository
-        .findReservationByMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 25)).get()
-        .getMember().getId();
+        .findReservationByMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 25)).get().getMember()
+        .getId();
     assertEquals(memberId, foundReservations);
   }
 
@@ -87,5 +87,13 @@ public class ReservationRepositoryTest {
     Long carId = carRepository.findAll().get(0).getId();
     int foundReservations = reservationRepository.findReservationsByCarId(carId).size();
     assertEquals(2, foundReservations);
+  }
+
+  @Test
+  void testDeleteReservationById() {
+    Long reservationId = reservationRepository.findAll().get(1).getId();
+    reservationRepository.deleteReservationById(reservationId);
+    int foundReservations = reservationRepository.findAll().size();
+    assertTrue(foundReservations == 1);
   }
 }

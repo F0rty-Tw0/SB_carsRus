@@ -64,7 +64,7 @@ public class ReservationsController implements ReservationsControllerInterface {
   }
 
   @Override
-  public ReservationDTO addReservations(@RequestBody ReservationDTO reservationDTO) {
+  public ReservationDTO addReservation(@RequestBody ReservationDTO reservationDTO) {
     return reservationService.addReservation(reservationDTO);
   }
 
