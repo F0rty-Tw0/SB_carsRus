@@ -1,6 +1,7 @@
 package cars.rus.Utils.Converters;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
@@ -20,10 +21,12 @@ public class ReservationDTOconverter {
   }
 
   public <OBJ> ExtendedReservationDTO convertToExtendedReservationDto(OBJ obj) {
+    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
     return modelMapper.map(obj, ExtendedReservationDTO.class);
   }
 
   public <OBJ> Reservation convertToEntity(OBJ obj) {
+
     return modelMapper.map(obj, Reservation.class);
   }
 }
