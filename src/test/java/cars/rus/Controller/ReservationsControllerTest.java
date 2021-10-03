@@ -13,7 +13,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -62,12 +61,11 @@ public class ReservationsControllerTest {
   ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
   @Test
-  @Order(1)
   void testAddReservation() {
-    Long carDTOid = carRepository.findAll().get(0).getId();
-    Long memberDTOid = memberRepository.findAll().get(0).getId();
-    ReservationDTO reservationDTO = new ReservationDTO(0L, LocalDate.of(2021, Month.JANUARY, 25), carDTOid,
-        memberDTOid);
+    Long carId = carRepository.findAll().get(0).getId();
+    Long memberId = memberRepository.findAll().get(0).getId();
+    ReservationDTO reservationDTO = new ReservationDTO(0L, LocalDate.of(2021, Month.JANUARY, 25), carId,
+    memberId);
     ResponseEntity<ReservationDTO> postResponse = remoteService.query(port, path, reservationDTO, HttpMethod.POST);
     ReservationDTO newReservationDTO = mapper.convertValue(postResponse.getBody(), new TypeReference<ReservationDTO>() {
     });
@@ -77,7 +75,6 @@ public class ReservationsControllerTest {
   }
 
   @Test
-  @Order(2)
   void testDeleteReservationById() {
     Long reservationId = reservationRepository.findAll().get(1).getId();
     int allReservations = reservationRepository.findAll().size();
@@ -87,45 +84,57 @@ public class ReservationsControllerTest {
   }
 
   @Test
-  @Order(3)
   void testFindAllReservations() {
     ResponseEntity<List<ReservationDTO>> response = remoteService.query(port, path, null, HttpMethod.GET);
     int foundReservations = response.getBody().size();
     assertEquals(2, foundReservations);
   }
 
-  // @Test
-  // void testFindReservationByCarIdAndRentalDate() {
-  //   ResponseEntity<ReservationDTO> response = remoteService.query(port, path, null, HttpMethod.GET, "/car/1",
-  //       "/date/2021-01-24");
-  //   ExtendedReservationDTO reservationDTO = mapper.convertValue(response.getBody(),
-  //       new TypeReference<ExtendedReservationDTO>() {
-  //       });
-  //   assertEquals(1, reservationDTO.getId());
-  // }
+  @Test
+  void testFindReservationByCarIdAndRentalDate() {
+    Long carId = carRepository.findAll().get(0).getId();
+    ResponseEntity<ReservationDTO> response = remoteService.query(port, path, null, HttpMethod.GET,
+        "/car/" + carId + "/date/2021-01-24", "?type=extended");
+    ExtendedReservationDTO reservationDTO = mapper.convertValue(response.getBody(),
+        new TypeReference<ExtendedReservationDTO>() {
+        });
+    assertEquals(carId, reservationDTO.getCar().getId());
+  }
 
-  // @Test
-  // void testFindReservationByMemberIdAndRentalDate() {
-  //   ResponseEntity<ReservationDTO> response = remoteService.query(port, path, null, HttpMethod.GET, "/member/1",
-  //       "/date/2021-01-24");
-  //   ExtendedReservationDTO reservationDTO = mapper.convertValue(response.getBody(),
-  //       new TypeReference<ExtendedReservationDTO>() {
-  //       });
-  //   assertEquals(1, reservationDTO.getId());
-  // }
+  @Test
+  void testFindReservationByMemberIdAndRentalDate() {
+    Long memberId = memberRepository.findAll().get(0).getId();
+    ResponseEntity<ReservationDTO> response = remoteService.query(port, path, null, HttpMethod.GET,
+        "/member/" + memberId + "/date/2021-01-24", "?type=extended");
+    ExtendedReservationDTO reservationDTO = mapper.convertValue(response.getBody(),
+        new TypeReference<ExtendedReservationDTO>() {
+        });
+    assertEquals(memberId, reservationDTO.getMember().getId());
+  }
 
   @Test
   void testFindReservationsByCarId() {
-
+    Long carDTOid = carRepository.findAll().get(0).getId();
+    ResponseEntity<List<ReservationDTO>> response = remoteService.query(port, path, null, HttpMethod.GET,
+        "/car/" + carDTOid);
+    int foundReservations = response.getBody().size();
+    assertEquals(2, foundReservations);
   }
 
   @Test
   void testFindReservationsByMemberId() {
-
+    Long memberDTOid = memberRepository.findAll().get(0).getId();
+    ResponseEntity<List<ReservationDTO>> response = remoteService.query(port, path, null, HttpMethod.GET,
+        "/car/" + memberDTOid);
+    int foundReservations = response.getBody().size();
+    assertEquals(2, foundReservations);
   }
 
   @Test
   void testFindReservationsByRentalDate() {
-
+    ResponseEntity<List<ReservationDTO>> response = remoteService.query(port, path, null, HttpMethod.GET,
+        "/date/2021-01-24");
+    int foundReservations = response.getBody().size();
+    assertEquals(1, foundReservations);
   }
 }

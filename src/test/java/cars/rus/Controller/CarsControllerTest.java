@@ -24,6 +24,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.CarDTO.CarDTO;
+import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
@@ -71,8 +72,8 @@ public class CarsControllerTest {
   @Test
   void testFindCarById() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    ResponseEntity<CarDTO> response = remoteService.query(port, path, null, HttpMethod.GET, ("/" + lastCarId));
-    CarDTO carDTO = mapper.convertValue(response.getBody(), new TypeReference<CarDTO>() {
+    ResponseEntity<CarDTO> response = remoteService.query(port, path, null, HttpMethod.GET, "/" + lastCarId);
+    ExtendedCarDTO carDTO = mapper.convertValue(response.getBody(), new TypeReference<ExtendedCarDTO>() {
     });
     assertEquals("Porsche", carDTO.getBrand());
   }
