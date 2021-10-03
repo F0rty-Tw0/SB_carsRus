@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import cars.rus.DTO.CarDTO.ExtendedCarDTO;
 import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.Entities.Car;
+import cars.rus.ExceptionHandler.ResourceNotFoundException;
 import cars.rus.Repositories.CarRepository;
 import cars.rus.Utils.Converters.CarDTOconverter;
 
@@ -17,6 +18,14 @@ import cars.rus.Utils.Converters.CarDTOconverter;
 public class CarServiceImpl implements CarService {
   private CarDTOconverter carDTOconverter = new CarDTOconverter();
   private CarRepository carRepository;
+
+  private String errorMessage(long id) {
+    return "Could not find the Car with the id: " + id;
+  }
+
+  private String errorMessage() {
+    return "Could not find any Cars";
+  }
 
   @Autowired
   public CarServiceImpl(CarRepository carRepository) {
@@ -26,33 +35,52 @@ public class CarServiceImpl implements CarService {
   @Override
   public Collection<ExtendedCarDTO> findCarsByBrand(String brand, boolean extended) {
     Collection<Car> matchedCars = carRepository.findCarsByBrand(brand);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
-            .collect(Collectors.toList());
+    if (!matchedCars.isEmpty()) {
+      return extended
+          ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+          : matchedCars.stream()
+              .map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
   }
 
   @Override
   public Collection<ExtendedCarDTO> findCarsByBrandAndModel(String brand, String model, boolean extended) {
     Collection<Car> matchedCars = carRepository.findCarsByBrandAndModel(brand, model);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
-            .collect(Collectors.toList());
+    if (!matchedCars.isEmpty()) {
+      return extended
+          ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+          : matchedCars.stream()
+              .map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
   }
 
   @Override
   public Collection<ExtendedCarDTO> findCarsByPricePerDayLessThan(int givenPrice, boolean extended) {
     Collection<Car> matchedCars = carRepository.findCarsByPricePerDayLessThan(givenPrice);
-    return extended ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
-        : matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
-            .collect(Collectors.toList());
+    if (!matchedCars.isEmpty()) {
+      return extended
+          ? matchedCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+          : matchedCars.stream()
+              .map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
   }
 
   @Override
   public Collection<ExtendedCarDTO> findAllCars(boolean extended) {
     Collection<Car> allCars = carRepository.findAll();
-    return extended ? allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
-        : allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
-            .collect(Collectors.toList());
+    if (!allCars.isEmpty()) {
+      return extended
+          ? allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(car)).collect(Collectors.toList())
+          : allCars.stream().map(car -> carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToCarDto(car)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
   }
 
   @Override
@@ -78,17 +106,14 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public ExtendedCarDTO findCarById(Long id, boolean extended) {
-    Optional<Car> foundCar = carRepository.findById(id);
-    return extended ? carDTOconverter.convertToExtendedCarDto(foundCar.get())
-        : carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToExtendedCarDto(foundCar.get()));
+    Car foundCar = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
+    return extended ? carDTOconverter.convertToExtendedCarDto(foundCar)
+        : carDTOconverter.convertToExtendedCarDto(carDTOconverter.convertToExtendedCarDto(foundCar));
   }
 
   @Override
   public void deleteCarById(Long id) {
-    Optional<Car> foundCar = carRepository.findById(id);
-    if (!foundCar.isPresent()) {
-      return;
-    }
+    carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
     carRepository.deleteCarById(id);
   }
 }

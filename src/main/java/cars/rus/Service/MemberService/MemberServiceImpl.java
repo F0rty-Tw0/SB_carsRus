@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import cars.rus.DTO.MemberDTO.ExtendedMemberDTO;
 import cars.rus.DTO.MemberDTO.MemberDTO;
 import cars.rus.Entities.Member;
+import cars.rus.ExceptionHandler.ResourceNotFoundException;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Utils.Converters.MemberDTOconverter;
 
@@ -17,6 +18,14 @@ public class MemberServiceImpl implements MemberService {
   private MemberRepository memberRepository;
   private MemberDTOconverter memberDTOconverter = new MemberDTOconverter();
 
+  private String errorMessage(long id) {
+    return "Could not find the Member with the id: " + id;
+  }
+
+  private String errorMessage() {
+    return "Could not find any Members";
+  }
+
   public MemberServiceImpl(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
   }
@@ -24,30 +33,38 @@ public class MemberServiceImpl implements MemberService {
   @Override
   public Collection<ExtendedMemberDTO> findAllMembers(boolean extended) {
     Collection<Member> allMembers = memberRepository.findAll();
-    return extended
-        ? allMembers.stream().map(member -> memberDTOconverter.convertToExtendedMemberDto(member))
-            .collect(Collectors.toList())
-        : allMembers.stream()
-            .map(member -> memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(member)))
-            .collect(Collectors.toList());
+    if (!allMembers.isEmpty()) {
+      return extended
+          ? allMembers.stream().map(member -> memberDTOconverter.convertToExtendedMemberDto(member))
+              .collect(Collectors.toList())
+          : allMembers.stream().map(
+              member -> memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(member)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
   };
 
   @Override
   public ExtendedMemberDTO findMemberByEmail(String email, boolean extended) {
-    Optional<Member> foundMember = memberRepository.findMemberByEmail(email);
-    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
-        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
+    Member foundMember = memberRepository.findMemberByEmail(email)
+        .orElseThrow(() -> new ResourceNotFoundException(errorMessage()));
+    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember)
+        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember));
   }
 
   @Override
   public Collection<ExtendedMemberDTO> findMembersByApproved(boolean isApproved, boolean extended) {
     Collection<Member> foundMember = memberRepository.findMembersByApproved(isApproved);
-    return extended
-        ? foundMember.stream().map(member -> memberDTOconverter.convertToExtendedMemberDto(member))
-            .collect(Collectors.toList())
-        : foundMember.stream()
-            .map(member -> memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(member)))
-            .collect(Collectors.toList());
+    if (!foundMember.isEmpty()) {
+      return extended
+          ? foundMember.stream().map(member -> memberDTOconverter.convertToExtendedMemberDto(member))
+              .collect(Collectors.toList())
+          : foundMember.stream().map(
+              member -> memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(member)))
+              .collect(Collectors.toList());
+    }
+    throw new ResourceNotFoundException(errorMessage());
+
   }
 
   @Override
@@ -70,17 +87,15 @@ public class MemberServiceImpl implements MemberService {
 
   @Override
   public ExtendedMemberDTO findMemberById(Long id, boolean extended) {
-    Optional<Member> foundMember = memberRepository.findById(id);
-    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember.get())
-        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember.get()));
+    Member foundMember = memberRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
+    return extended ? memberDTOconverter.convertToExtendedMemberDto(foundMember)
+        : memberDTOconverter.convertToExtendedMemberDto(memberDTOconverter.convertToMemberDto(foundMember));
   }
 
   @Override
   public void deleteMemberById(Long id) {
-    Optional<Member> foundMember = memberRepository.findById(id);
-    if (!foundMember.isPresent()) {
-      return;
-    }
+    memberRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
     memberRepository.deleteMemberById(id);
   }
 
