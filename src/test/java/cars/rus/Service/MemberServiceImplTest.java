@@ -73,8 +73,9 @@ public class MemberServiceImplTest {
 
   @Test
   void testDeleteMemberById() {
-    memberServiceImpl.deleteMemberById(1l);
-    Optional<Member> foundMember = memberRepository.findById(1l);
+    Long lastMemberId = memberRepository.findTopByOrderByIdDesc().getId();
+    memberServiceImpl.deleteMemberById(lastMemberId);
+    Optional<Member> foundMember = memberRepository.findById(lastMemberId);
     assertTrue(!foundMember.isPresent());
   }
 

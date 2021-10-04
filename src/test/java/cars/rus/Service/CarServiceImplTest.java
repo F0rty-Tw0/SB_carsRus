@@ -80,8 +80,9 @@ public class CarServiceImplTest {
 
   @Test
   public void deleteCarById() {
-    carServiceImpl.deleteCarById(1l);
-    Optional<Car> foundCar = carRepository.findById(1l);
+    Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
+    carServiceImpl.deleteCarById(lastCarId);
+    Optional<Car> foundCar = carRepository.findById(lastCarId);
     assertTrue(!foundCar.isPresent());
   }
 
