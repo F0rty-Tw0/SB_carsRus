@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import cars.rus.Configuration.JpaDataMock;
+import cars.rus.DTO.ReservationDTO.ExtendedReservationDTO;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
 import cars.rus.Entities.Reservation;
 import cars.rus.Repositories.CarRepository;
@@ -51,8 +52,11 @@ public class ReservationServiceImplTest {
 
   @Test
   void testDeleteReservationById() {
-    reservationServiceImpl.deleteReservationById(1l);
-    Optional<Reservation> foundReservation = reservationRepository.findById(1l);
+    Long memberId = memberRepository.findAll().get(0).getId();
+    Long foundReservationId = reservationServiceImpl
+        .findReservationByMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 24), false).getId();
+    reservationServiceImpl.deleteReservationById(foundReservationId);
+    Optional<Reservation> foundReservation = reservationRepository.findById(foundReservationId);
     assertTrue(!foundReservation.isPresent());
   }
 
