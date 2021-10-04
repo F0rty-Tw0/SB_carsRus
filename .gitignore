@@ -20,8 +20,6 @@ launch.json
 *.iml
 *.ipr
 
-### Test propreties ###
-/src/test/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/

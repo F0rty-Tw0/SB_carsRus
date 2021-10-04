@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import cars.rus.Configuration.JpaDataMock;
-import cars.rus.DTO.ReservationDTO.ExtendedReservationDTO;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
 import cars.rus.Entities.Reservation;
 import cars.rus.Repositories.CarRepository;
