@@ -108,7 +108,7 @@ public class DataSetup implements CommandLineRunner {
         new Member(
           "David",
           "Guetta",
-          "Hauptstr. 5",
+          "Hauptstr. 4",
           "Buenas Aires",
           "5818",
           "david@gmail.com",
