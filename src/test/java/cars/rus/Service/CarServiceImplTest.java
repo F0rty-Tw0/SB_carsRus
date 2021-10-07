@@ -3,13 +3,6 @@ package cars.rus.Service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.CarDTO.CarDTO;
 import cars.rus.Entities.Car;
@@ -17,15 +10,23 @@ import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
 import cars.rus.Service.CarService.CarServiceImpl;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 public class CarServiceImplTest {
+
   private CarDTO carDTO = new CarDTO("Jeep", "Raw 4", 50);
 
   @Autowired
   private ReservationRepository reservationRepository;
+
   @Autowired
   private MemberRepository memberRepository;
+
   @Autowired
   private CarRepository carRepository;
 
@@ -38,7 +39,11 @@ public class CarServiceImplTest {
 
   @BeforeEach
   public void createCars() {
-    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
+    JpaDataMock.setupData(
+      carRepository,
+      memberRepository,
+      reservationRepository
+    );
   }
 
   @Test
@@ -50,7 +55,9 @@ public class CarServiceImplTest {
   @Test
   public void testUpdateOrAddCar() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
-    String updatedBrand = carServiceImpl.updateOrAddCar(carDTO, lastCarId).getBrand();
+    String updatedBrand = carServiceImpl
+      .updateOrAddCar(carDTO, lastCarId)
+      .getBrand();
     assertEquals("Jeep", updatedBrand);
   }
 
@@ -62,13 +69,17 @@ public class CarServiceImplTest {
 
   @Test
   public void testFindCarsByBrandAndModel() {
-    int foundCars = carServiceImpl.findCarsByBrandAndModel("Toyota", "Yaris", false).size();
+    int foundCars = carServiceImpl
+      .findCarsByBrandAndModel("Toyota", "Yaris", false)
+      .size();
     assertEquals(1, foundCars);
   }
 
   @Test
   public void testFindCarsByPricePerDayLessThan() {
-    int foundCars = carServiceImpl.findCarsByPricePerDayLessThan(50, false).size();
+    int foundCars = carServiceImpl
+      .findCarsByPricePerDayLessThan(50, false)
+      .size();
     assertEquals(2, foundCars);
   }
 
@@ -90,7 +101,9 @@ public class CarServiceImplTest {
   void testFindCarById() {
     Long lastCarId = carRepository.findTopByOrderByIdDesc().getId();
     String lastCarBrand = carRepository.findTopByOrderByIdDesc().getBrand();
-    String foundCarBrand = carServiceImpl.findCarById(lastCarId, false).getBrand();
+    String foundCarBrand = carServiceImpl
+      .findCarById(lastCarId, false)
+      .getBrand();
     assertEquals(lastCarBrand, foundCarBrand);
   }
 }
