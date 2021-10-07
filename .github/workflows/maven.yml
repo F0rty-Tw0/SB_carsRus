@@ -23,7 +23,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-     env:
+      env:
         DATABASE_URL: ${{DATABASE_URL}}
         JWT_SECRET: ${{JWT_SECRET}}
         JWT_EXPIRATION: ${{JWT_EXPIRATION}}
