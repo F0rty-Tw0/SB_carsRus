@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .permitAll()
       .antMatchers("/api/test/**", "/extra/**")
       .permitAll()
-      // .antMatchers("/**").permitAll() //disabling the spring authentication
+      .antMatchers("/**").permitAll() //disabling the spring authentication
       .anyRequest()
       .authenticated();
 
