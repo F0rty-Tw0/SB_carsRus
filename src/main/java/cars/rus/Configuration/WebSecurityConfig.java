@@ -3,6 +3,7 @@ package cars.rus.Configuration;
 import cars.rus.Security.JWT.AuthEntryPointJwt;
 import cars.rus.Security.JWT.AuthTokenFilter;
 import cars.rus.Service.UserDetails.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
