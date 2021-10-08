@@ -7,10 +7,7 @@ import cars.rus.Utils.CheckExtended;
 import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,25 +20,20 @@ public class CarsController implements CarsControllerInterface {
   private CheckExtended checkExtended = new CheckExtended();
 
   @Override
-  public Collection<ExtendedCarDTO> findAllCars(
-    @RequestParam(required = false) String type
-  ) {
+  public Collection<ExtendedCarDTO> findAllCars(String type) {
     return carService.findAllCars(checkExtended.isExtended(type));
   }
 
   @Override
-  public Collection<ExtendedCarDTO> findCarsByBrand(
-    @RequestParam(required = false) String type,
-    @PathVariable String brand
-  ) {
+  public Collection<ExtendedCarDTO> findCarsByBrand(String type, String brand) {
     return carService.findCarsByBrand(brand, checkExtended.isExtended(type));
   }
 
   @Override
   public Collection<ExtendedCarDTO> findCarsByBrandAndModel(
-    @RequestParam(required = false) String type,
-    @PathVariable String brand,
-    @PathVariable String model
+    String type,
+    String brand,
+    String model
   ) {
     return carService.findCarsByBrandAndModel(
       brand,
@@ -52,8 +44,8 @@ public class CarsController implements CarsControllerInterface {
 
   @Override
   public Collection<ExtendedCarDTO> findCarsByPricePerDayLessThan(
-    @RequestParam(required = false) String type,
-    @PathVariable int price
+    String type,
+    int price
   ) {
     return carService.findCarsByPricePerDayLessThan(
       price,
@@ -62,29 +54,23 @@ public class CarsController implements CarsControllerInterface {
   }
 
   @Override
-  public ExtendedCarDTO findCarById(
-    @RequestParam(required = false) String type,
-    @PathVariable Long id
-  ) {
+  public ExtendedCarDTO findCarById(String type, Long id) {
     return carService.findCarById(id, checkExtended.isExtended(type));
   }
 
   @Override
-  public CarDTO updateOrAddCar(
-    @PathVariable Long id,
-    @RequestBody CarDTO carDTO
-  ) {
+  public CarDTO updateOrAddCar(Long id, CarDTO carDTO) {
     return carService.updateOrAddCar(carDTO, id);
   }
 
   @Override
-  public CarDTO addCar(@RequestBody CarDTO carDTO) {
+  public CarDTO addCar(CarDTO carDTO) {
     return carService.addCar(carDTO);
   }
 
   @Override
   @Transactional
-  public void deleteCarById(@PathVariable Long id) {
+  public void deleteCarById(Long id) {
     carService.deleteCarById(id);
   }
 }

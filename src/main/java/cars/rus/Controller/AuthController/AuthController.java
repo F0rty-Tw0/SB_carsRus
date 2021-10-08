@@ -1,4 +1,4 @@
-package cars.rus.Controller;
+package cars.rus.Controller.AuthController;
 
 import cars.rus.Entities.User.ERole;
 import cars.rus.Entities.User.Role;
@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,15 +23,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController implements AuthControllerInterface {
 
   static final String ROLE_NOT_FOUND_MESSAGE = "Error: Role is not found.";
 
@@ -51,10 +48,9 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  @PostMapping("/signin")
-  // public ResponseEntity<?>
+  @Override
   public ResponseEntity<JwtResponse> authenticateUser(
-    @Valid @RequestBody LoginRequest loginRequest
+    LoginRequest loginRequest
   ) {
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(
@@ -85,10 +81,8 @@ public class AuthController {
     );
   }
 
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(
-    @Valid @RequestBody SignupRequest signUpRequest
-  ) {
+  @Override
+  public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
         .badRequest()

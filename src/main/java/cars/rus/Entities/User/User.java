@@ -2,6 +2,8 @@ package cars.rus.Entities.User;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,13 +35,14 @@ public class User {
   @Column(nullable = false, length = 120)
   private String email;
 
-  @Column(nullable = false, length = 50)
+  @Column(nullable = false, length = 256)
   private String password;
 
   @Column(nullable = false, length = 20)
   private String username;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @OnDelete(action=OnDeleteAction.CASCADE) 
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   @JoinTable(
     name = "assigned_roles",
     joinColumns = @JoinColumn(name = "user_id"),

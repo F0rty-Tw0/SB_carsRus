@@ -7,10 +7,7 @@ import cars.rus.Utils.CheckExtended;
 import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,24 +20,19 @@ public class MembersController implements MembersControllerInterface {
   private CheckExtended checkExtended = new CheckExtended();
 
   @Override
-  public Collection<ExtendedMemberDTO> getAllMembers(
-    @RequestParam(required = false) String type
-  ) {
+  public Collection<ExtendedMemberDTO> getAllMembers(String type) {
     return memberService.findAllMembers(checkExtended.isExtended(type));
   }
 
   @Override
-  public ExtendedMemberDTO findMemberById(
-    @RequestParam(required = false) String type,
-    @PathVariable Long id
-  ) {
+  public ExtendedMemberDTO findMemberById(String type, Long id) {
     return memberService.findMemberById(id, checkExtended.isExtended(type));
   }
 
   @Override
   public Collection<ExtendedMemberDTO> findMembersByApproved(
-    @RequestParam(required = false) String type,
-    @PathVariable Boolean approved
+    String type,
+    Boolean approved
   ) {
     return memberService.findMembersByApproved(
       approved,
@@ -49,10 +41,7 @@ public class MembersController implements MembersControllerInterface {
   }
 
   @Override
-  public ExtendedMemberDTO findMemberByEmail(
-    @RequestParam(required = false) String type,
-    @PathVariable String email
-  ) {
+  public ExtendedMemberDTO findMemberByEmail(String type, String email) {
     return memberService.findMemberByEmail(
       email,
       checkExtended.isExtended(type)
@@ -60,21 +49,18 @@ public class MembersController implements MembersControllerInterface {
   }
 
   @Override
-  public MemberDTO addOrUpdateMember(
-    @PathVariable long id,
-    @RequestBody MemberDTO memberDTO
-  ) {
+  public MemberDTO addOrUpdateMember(long id, MemberDTO memberDTO) {
     return memberService.updateOrAddMember(memberDTO, id);
   }
 
   @Override
-  public MemberDTO addMember(@RequestBody MemberDTO memberDTO) {
+  public MemberDTO addMember(MemberDTO memberDTO) {
     return memberService.addMember(memberDTO);
   }
 
   @Override
   @Transactional
-  public void deleteMemberById(@PathVariable Long id) {
+  public void deleteMemberById(Long id) {
     memberService.deleteMemberById(id);
   }
 }

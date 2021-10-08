@@ -8,11 +8,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,9 +21,7 @@ public class ReservationsController implements ReservationsControllerInterface {
   CheckExtended checkExtended = new CheckExtended();
 
   @Override
-  public Collection<ExtendedReservationDTO> findAllReservations(
-    @RequestParam(required = false) String type
-  ) {
+  public Collection<ExtendedReservationDTO> findAllReservations(String type) {
     return reservationService.findAllReservations(
       checkExtended.isExtended(type)
     );
@@ -35,8 +29,8 @@ public class ReservationsController implements ReservationsControllerInterface {
 
   @Override
   public Collection<ExtendedReservationDTO> findReservationsByCarId(
-    @RequestParam(required = false) String type,
-    @PathVariable Long carId
+    String type,
+    Long carId
   ) {
     return reservationService.findReservationsByCarId(
       carId,
@@ -46,8 +40,8 @@ public class ReservationsController implements ReservationsControllerInterface {
 
   @Override
   public Collection<ExtendedReservationDTO> findReservationsByMemberId(
-    @RequestParam(required = false) String type,
-    @PathVariable Long memberId
+    String type,
+    Long memberId
   ) {
     return reservationService.findReservationsByMemberId(
       memberId,
@@ -57,10 +51,8 @@ public class ReservationsController implements ReservationsControllerInterface {
 
   @Override
   public Collection<ExtendedReservationDTO> findReservationsByRentalDate(
-    @RequestParam(required = false) String type,
-    @PathVariable @DateTimeFormat(
-      iso = DateTimeFormat.ISO.DATE
-    ) LocalDate rentalDate
+    String type,
+    LocalDate rentalDate
   ) {
     return reservationService.findReservationsByRentalDate(
       rentalDate,
@@ -70,11 +62,9 @@ public class ReservationsController implements ReservationsControllerInterface {
 
   @Override
   public ExtendedReservationDTO findReservationByCarIdAndRentalDate(
-    @RequestParam(required = false) String type,
-    @PathVariable Long carId,
-    @PathVariable @DateTimeFormat(
-      iso = DateTimeFormat.ISO.DATE
-    ) LocalDate rentalDate
+    String type,
+    Long carId,
+    LocalDate rentalDate
   ) {
     return reservationService.findReservationByCarIdAndRentalDate(
       carId,
@@ -85,11 +75,9 @@ public class ReservationsController implements ReservationsControllerInterface {
 
   @Override
   public ExtendedReservationDTO findReservationByMemberIdAndRentalDate(
-    @RequestParam(required = false) String type,
-    @PathVariable Long memberId,
-    @PathVariable @DateTimeFormat(
-      iso = DateTimeFormat.ISO.DATE
-    ) LocalDate rentalDate
+    String type,
+    Long memberId,
+    LocalDate rentalDate
   ) {
     return reservationService.findReservationByMemberIdAndRentalDate(
       memberId,
@@ -99,15 +87,13 @@ public class ReservationsController implements ReservationsControllerInterface {
   }
 
   @Override
-  public ReservationDTO addReservation(
-    @RequestBody ReservationDTO reservationDTO
-  ) {
+  public ReservationDTO addReservation(ReservationDTO reservationDTO) {
     return reservationService.addReservation(reservationDTO);
   }
 
   @Override
   @Transactional
-  public void deleteReservationById(@PathVariable Long id) {
+  public void deleteReservationById(Long id) {
     reservationService.deleteReservationById(id);
   }
 }
