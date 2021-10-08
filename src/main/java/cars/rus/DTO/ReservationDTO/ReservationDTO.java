@@ -1,9 +1,7 @@
 package cars.rus.DTO.ReservationDTO;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonIgnoreProperties("id")
 public class ReservationDTO {
+
   private Long id;
   private LocalDate rentalDate;
   private Long carId;

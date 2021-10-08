@@ -9,8 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application.properties")
 class CarsRUsApplicationTest {
-	@Test
-	void contextLoads() {
-	}
 
+  @Test
+  void contextLoads() {}
 }

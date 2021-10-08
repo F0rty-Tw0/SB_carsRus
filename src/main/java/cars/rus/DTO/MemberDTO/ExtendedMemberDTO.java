@@ -1,11 +1,9 @@
 package cars.rus.DTO.MemberDTO;
 
+import cars.rus.Entities.Reservation;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 import java.util.Collection;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import cars.rus.Entities.Reservation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,7 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExtendedMemberDTO {
+
   private Long id;
   private String firstName;
   private String lastName;
