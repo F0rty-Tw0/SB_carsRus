@@ -3,15 +3,6 @@ package cars.rus.Service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import cars.rus.Configuration.JpaDataMock;
 import cars.rus.DTO.ReservationDTO.ReservationDTO;
 import cars.rus.Entities.Reservation;
@@ -19,15 +10,26 @@ import cars.rus.Repositories.CarRepository;
 import cars.rus.Repositories.MemberRepository;
 import cars.rus.Repositories.ReservationRepository;
 import cars.rus.Service.ReservationService.ReservationServiceImpl;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 public class ReservationServiceImplTest {
+
   @Autowired
   private ReservationRepository reservationRepository;
+
   @Autowired
   private MemberRepository memberRepository;
+
   @Autowired
   private CarRepository carRepository;
+
   ReservationServiceImpl reservationServiceImpl;
 
   @BeforeEach
@@ -37,15 +39,26 @@ public class ReservationServiceImplTest {
 
   @BeforeEach
   public void setupMembers() {
-    JpaDataMock.setupData(carRepository, memberRepository, reservationRepository);
+    JpaDataMock.setupData(
+      carRepository,
+      memberRepository,
+      reservationRepository
+    );
   }
 
   @Test
   void testAddReservation() {
     Long carId = carRepository.findAll().get(0).getId();
     Long memberId = memberRepository.findAll().get(0).getId();
-    ReservationDTO reservationDTO = new ReservationDTO(0L, LocalDate.of(2021, Month.JANUARY, 25), carId, memberId);
-    LocalDate rentalDate = reservationServiceImpl.addReservation(reservationDTO).getRentalDate();
+    ReservationDTO reservationDTO = new ReservationDTO(
+      0L,
+      LocalDate.of(2021, Month.JANUARY, 25),
+      carId,
+      memberId
+    );
+    LocalDate rentalDate = reservationServiceImpl
+      .addReservation(reservationDTO)
+      .getRentalDate();
     assertEquals(rentalDate, reservationDTO.getRentalDate());
   }
 
@@ -53,15 +66,24 @@ public class ReservationServiceImplTest {
   void testDeleteReservationById() {
     Long memberId = memberRepository.findAll().get(0).getId();
     Long foundReservationId = reservationServiceImpl
-        .findReservationByMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 24), false).getId();
+      .findReservationByMemberIdAndRentalDate(
+        memberId,
+        LocalDate.of(2021, Month.JANUARY, 24),
+        false
+      )
+      .getId();
     reservationServiceImpl.deleteReservationById(foundReservationId);
-    Optional<Reservation> foundReservation = reservationRepository.findById(foundReservationId);
+    Optional<Reservation> foundReservation = reservationRepository.findById(
+      foundReservationId
+    );
     assertTrue(!foundReservation.isPresent());
   }
 
   @Test
   void testFindAllReservations() {
-    int foundReservations = reservationServiceImpl.findAllReservations(false).size();
+    int foundReservations = reservationServiceImpl
+      .findAllReservations(false)
+      .size();
     assertEquals(2, foundReservations);
   }
 
@@ -69,8 +91,13 @@ public class ReservationServiceImplTest {
   void testFindReservationByCarIdAndRentalDate() {
     Long carId = carRepository.findAll().get(0).getId();
     String foundReservationRentalDate = reservationServiceImpl
-        .findReservationByCarIdAndRentalDate(carId, LocalDate.of(2021, Month.JANUARY, 25), false).getRentalDate()
-        .toString();
+      .findReservationByCarIdAndRentalDate(
+        carId,
+        LocalDate.of(2021, Month.JANUARY, 25),
+        false
+      )
+      .getRentalDate()
+      .toString();
     assertEquals("2021-01-25", foundReservationRentalDate);
   }
 
@@ -78,28 +105,42 @@ public class ReservationServiceImplTest {
   void testFindReservationByMemberIdAndRentalDate() {
     Long memberId = memberRepository.findAll().get(0).getId();
     String foundReservationRentalDate = reservationServiceImpl
-        .findReservationByMemberIdAndRentalDate(memberId, LocalDate.of(2021, Month.JANUARY, 24), false).getRentalDate()
-        .toString();
+      .findReservationByMemberIdAndRentalDate(
+        memberId,
+        LocalDate.of(2021, Month.JANUARY, 24),
+        false
+      )
+      .getRentalDate()
+      .toString();
     assertEquals("2021-01-24", foundReservationRentalDate);
   }
 
   @Test
   void testFindReservationsByCarId() {
     Long carId = carRepository.findAll().get(0).getId();
-    int foundReservations = reservationServiceImpl.findReservationsByCarId(carId, false).size();
+    int foundReservations = reservationServiceImpl
+      .findReservationsByCarId(carId, false)
+      .size();
     assertEquals(2, foundReservations);
   }
 
   @Test
   void testFindReservationsByMemberId() {
     Long memberId = memberRepository.findAll().get(0).getId();
-    int foundReservations = reservationServiceImpl.findReservationsByMemberId(memberId, false).size();
+    int foundReservations = reservationServiceImpl
+      .findReservationsByMemberId(memberId, false)
+      .size();
     assertEquals(1, foundReservations);
   }
 
   @Test
   void testFindReservationsByRentalDate() {
-    int foundReservations = reservationServiceImpl.findReservationsByRentalDate(LocalDate.of(2021, Month.JANUARY, 24), false).size();
+    int foundReservations = reservationServiceImpl
+      .findReservationsByRentalDate(
+        LocalDate.of(2021, Month.JANUARY, 24),
+        false
+      )
+      .size();
     assertEquals(1, foundReservations);
   }
 }

@@ -1,8 +1,7 @@
 package cars.rus.Utils;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,8 +18,13 @@ public class RemoteService {
     return pathBuilded;
   }
 
-  public <REQ, RES> ResponseEntity<RES> query(int port, String path, REQ req, HttpMethod method,
-      String... params) {
+  public <REQ, RES> ResponseEntity<RES> query(
+    int port,
+    String path,
+    REQ req,
+    HttpMethod method,
+    String... params
+  ) {
     String param1 = params.length > 0 ? params[0] : "";
     String param2 = params.length > 1 ? params[1] : "";
     String url = makeUrl(port, path + param1 + param2);
@@ -28,8 +32,13 @@ public class RemoteService {
     try {
       long startMillis = System.currentTimeMillis();
       HttpEntity<REQ> request = new HttpEntity<>(req, headers);
-      response = restTemplate.exchange(url, method, request, new ParameterizedTypeReference<RES>() {
-      });
+      response =
+        restTemplate.exchange(
+          url,
+          method,
+          request,
+          new ParameterizedTypeReference<RES>() {}
+        );
 
       long stopMillis = System.currentTimeMillis() - startMillis;
       System.out.println(method + ":" + url + " took " + stopMillis + " ms");
